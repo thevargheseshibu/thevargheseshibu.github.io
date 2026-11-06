@@ -14,7 +14,7 @@ export default function Nav() {
   const navigate = useNavigate();
   const menuRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
-  const isHome = pathname === "/";
+  const isHome = pathname === "/" || pathname === "/cinematic";
 
   useEffect(() => {
     let frame = 0;
@@ -122,7 +122,7 @@ export default function Nav() {
           {nav.map((item) => (
             <li key={item.id}>
               <a
-                href={`/#${item.id}`}
+                href={`${isHome ? pathname : "/"}#${item.id}`}
                 aria-current={active === item.id ? "location" : undefined}
                 onClick={go(item.id)}
                 className="label group relative inline-flex gap-2 py-2 text-bone/80 transition-colors hover:text-bone"
@@ -178,7 +178,7 @@ export default function Nav() {
               <li key={item.id} className="overflow-hidden">
                 <a
                   data-menu-item
-                  href={`/#${item.id}`}
+                  href={`${isHome ? pathname : "/"}#${item.id}`}
                   onClick={go(item.id)}
                   className="flex items-baseline gap-4 py-2 font-display text-[clamp(3rem,15vw,6rem)] font-normal leading-[0.95] tracking-[-0.02em]"
                 >

@@ -46,7 +46,7 @@ export default function App() {
         Skip to content
       </a>
       <RouteEffects />
-      {!pathname.startsWith("/cinematic") && <Nav />}
+      {pathname !== "/cinematic-lab" && <Nav />}
       <Suspense fallback={<div className="min-h-dvh bg-ink" />}>
         <Routes>
           <Route path="/" element={<Home />} />
