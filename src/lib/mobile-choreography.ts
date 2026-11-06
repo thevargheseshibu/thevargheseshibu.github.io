@@ -80,14 +80,13 @@ export function useMobileChoreography(root: RefObject<HTMLElement | null>) {
       );
       gsap.fromTo(
         q(".mp-film-shell .showcase-screen"),
-        { rotationY: -14, rotationX: 13, scale: 0.82, y: 35 },
+        { rotationX: 5, scale: 0.92, y: 18 },
         {
-          rotationY: 0,
           rotationX: 0,
           scale: 1,
           y: 0,
           ease: "none",
-          scrollTrigger: { trigger: q(".mp-film-stage")[0], start: "top 95%", end: "top 28%", scrub: true },
+          scrollTrigger: { trigger: q(".mp-film-stage")[0], start: "top 95%", end: "top 55%", scrub: 0.18 },
         },
       );
       gsap.fromTo(

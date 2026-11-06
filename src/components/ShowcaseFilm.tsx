@@ -1,56 +1,86 @@
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "../lib/motion";
 import "../styles/showcase-film.css";
 
-/** A local recording, never an interactive third-party frame. Deferred and paused offscreen. */
+/** Prebuffer near the viewport, play while visible, and preserve time across rendition changes. */
 export default function ShowcaseFilm({ className = "" }: { className?: string }) {
   const root = useRef<HTMLDivElement>(null),
-    video = useRef<HTMLVideoElement>(null);
+    video = useRef<HTMLVideoElement>(null),
+    resumeTime = useRef(0);
   const reduced = useReducedMotion();
   const [near, setNear] = useState(false),
     [visible, setVisible] = useState(false),
     [paused, setPaused] = useState(false),
-    [failed, setFailed] = useState(false);
+    [failed, setFailed] = useState(false),
+    [ready, setReady] = useState(false),
+    [blocked, setBlocked] = useState(false);
   const [quality, setQuality] = useState<"1080" | "4k">("1080");
   const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+  const playable = near && !reduced && !saveData && !failed;
+  const play = (film: HTMLVideoElement) =>
+    film.play().catch((error: DOMException) => {
+      if (error.name === "NotAllowedError") setBlocked(true);
+    });
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    const element = root.current!;
+    const preload = new IntersectionObserver(
       ([entry]) => {
-        setNear((v) => v || entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setNear(true);
+          preload.disconnect();
+        }
       },
-      { rootMargin: "400px" },
+      { rootMargin: "1200px" },
     );
-    const visibility = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.15 });
-    observer.observe(root.current!);
-    visibility.observe(root.current!);
+    // Hysteresis avoids pause/play chatter while the section crosses the viewport edge.
+    const visibility = new IntersectionObserver(
+      ([entry]) => setVisible((was) => entry.intersectionRatio > 0 && (was || entry.intersectionRatio >= 0.2)),
+      { threshold: [0, 0.2] },
+    );
+    preload.observe(element);
+    visibility.observe(element);
     return () => {
-      observer.disconnect();
+      preload.disconnect();
       visibility.disconnect();
     };
   }, []);
   useEffect(() => {
     const film = video.current;
-    if (!film) return;
-    if (visible && !paused && !document.hidden) film.play().catch(() => {});
-    else film.pause();
-    const onVisibility = () => {
-      if (document.hidden) film.pause();
-      else if (visible && !paused) film.play().catch(() => {});
+    if (!film || !playable) return;
+    const sync = () => {
+      if (visible && !paused && !document.hidden) void play(film);
+      else film.pause();
     };
-    document.addEventListener("visibilitychange", onVisibility);
+    sync();
+    document.addEventListener("visibilitychange", sync);
     return () => {
       film.pause();
-      document.removeEventListener("visibilitychange", onVisibility);
+      document.removeEventListener("visibilitychange", sync);
     };
-  }, [visible, paused, near, quality]);
-  const playable = near && !reduced && !saveData && !failed;
+  }, [visible, paused, playable, quality]);
+  const changeQuality = () => {
+    if (video.current && video.current.readyState >= 1) resumeTime.current = video.current.currentTime;
+    setReady(false);
+    setFailed(false);
+    setQuality((value) => (value === "4k" ? "1080" : "4k"));
+  };
+  const toggle = () => {
+    if (paused || blocked) {
+      setPaused(false);
+      setBlocked(false);
+      if (video.current) void play(video.current);
+    } else {
+      setPaused(true);
+      video.current?.pause();
+    }
+  };
   return (
-    <div ref={root} className={`showcase-film ${className}`}>
+    <div ref={root} className={`showcase-film ${className}`} data-ready={ready}>
       <div className="showcase-screen" onContextMenu={(e) => e.preventDefault()}>
         <img
           src="/images/kerasobha/home-1920.webp"
           srcSet="/images/kerasobha/home-1920.webp 1920w, /images/kerasobha/home-4k.webp 3840w"
-          sizes="100vw"
+          sizes="(max-width:699px) 100vw, 60vw"
           width={3840}
           height={2160}
           loading="lazy"
@@ -60,16 +90,28 @@ export default function ShowcaseFilm({ className = "" }: { className?: string })
           <video
             ref={video}
             key={quality}
-            src={`/media/kerasobha/website-${quality}.mp4`}
+            src={`/media/kerasobha/website-smooth-${quality}.mp4`}
+            poster="/images/kerasobha/home-1920.webp"
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="auto"
             disablePictureInPicture
             tabIndex={-1}
             aria-label="Read-only recording of the Kerasobha website"
-            onCanPlay={(event) => {
-              if (visible && !paused && !document.hidden) event.currentTarget.play().catch(() => {});
+            onLoadedMetadata={(e) => {
+              const film = e.currentTarget;
+              if (resumeTime.current > 0 && Number.isFinite(film.duration))
+                film.currentTime = Math.min(resumeTime.current, film.duration - 0.08);
+            }}
+            onLoadedData={() => setReady(true)}
+            onSeeked={() => setReady(true)}
+            onPlaying={() => {
+              setReady(true);
+              setBlocked(false);
+            }}
+            onCanPlay={(e) => {
+              if (visible && !paused && !document.hidden) void play(e.currentTarget);
             }}
             onError={() => setFailed(true)}
           />
@@ -79,19 +121,19 @@ export default function ShowcaseFilm({ className = "" }: { className?: string })
       <div className="showcase-controls">
         <span>
           {reduced || saveData
-            ? "Still preview · Motion preference respected"
+            ? "Still preview / Motion preference respected"
             : failed
-              ? "Still preview · Film unavailable"
-              : "Recorded website · No embedded site controls"}
+              ? "Still preview / Film unavailable"
+              : "Website film / 60 fps"}
         </span>
         <div>
           {playable && (
-            <button onClick={() => setPaused(!paused)} aria-label={paused ? "Play website film" : "Pause website film"}>
-              {paused ? "Play" : "Pause"}
+            <button onClick={toggle} aria-label={paused || blocked ? "Play website film" : "Pause website film"}>
+              {paused || blocked ? "Play" : "Pause"}
             </button>
           )}
-          <button aria-pressed={quality === "4k"} onClick={() => setQuality(quality === "4k" ? "1080" : "4k")}>
-            {quality === "4k" ? "4K" : "HD"} ↗
+          <button aria-pressed={quality === "4k"} onClick={changeQuality}>
+            {quality === "4k" ? "4K" : "HD"} &#8599;
           </button>
         </div>
       </div>

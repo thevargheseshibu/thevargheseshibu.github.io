@@ -101,3 +101,21 @@
     object-fit: contain;
   }
 }
+.showcase-screen > video {
+  opacity: 0;
+  transition: opacity 0.18s linear;
+}
+.showcase-film[data-ready="true"] .showcase-screen > video {
+  opacity: 1;
+}
+.showcase-screen {
+  contain: paint;
+}
+.showcase-film :is(video, img) {
+  -webkit-user-drag: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .showcase-screen > video {
+    transition: none;
+  }
+}

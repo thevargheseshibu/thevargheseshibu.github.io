@@ -9,7 +9,7 @@ test("mobile project unfolds with scroll, reverses, and keeps native scrolling",
   const top = await stage.evaluate((e) => e.getBoundingClientRect().top + scrollY);
   const height = page.viewportSize()!.height;
   await page.evaluate((y) => scrollTo(0, y), top - height * 0.96);
-  await expect.poll(() => shell.evaluate((e) => new DOMMatrix(getComputedStyle(e).transform).m11)).toBeLessThan(0.85);
+  await expect.poll(() => shell.evaluate((e) => new DOMMatrix(getComputedStyle(e).transform).m11)).toBeLessThan(0.95);
   const before = await shell.evaluate((e) => getComputedStyle(e).transform);
   await page.evaluate((y) => scrollTo(0, y), top - height * 0.2);
   await expect
