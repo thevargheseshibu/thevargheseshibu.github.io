@@ -11,32 +11,6 @@ export function useMobileChoreography(root: RefObject<HTMLElement | null>) {
     if (reduced) return;
     const ctx = gsap.context(() => {
       const q = gsap.utils.selector(element);
-      const entrance = gsap.timeline({ defaults: { ease: "power3.out" } });
-      entrance
-        .fromTo(q(".mp-arrival-image"), { scale: 1.12 }, { scale: 1, duration: 1.3 })
-        .fromTo(
-          q(".mp-arrival-copy h1"),
-          { y: 65, rotationX: 22, opacity: 0 },
-          { y: 0, rotationX: 0, opacity: 1, duration: 1 },
-          0.12,
-        )
-        .fromTo(
-          q(".mp-arrival-copy>.mp-eyebrow,.mp-arrival-copy>p,.mp-arrival-copy>.mp-link"),
-          { y: 20, opacity: 0 },
-          { y: 0, opacity: 1, stagger: 0.09, duration: 0.65 },
-          0.35,
-        );
-      gsap.to(q(".mp-arrival-copy"), {
-        yPercent: -22,
-        rotationX: 7,
-        ease: "none",
-        scrollTrigger: { trigger: q(".mp-arrival")[0], start: "top top", end: "bottom top", scrub: true },
-      });
-      gsap.to(q(".mp-arrival-image"), {
-        yPercent: 16,
-        ease: "none",
-        scrollTrigger: { trigger: q(".mp-arrival")[0], start: "top top", end: "bottom top", scrub: true },
-      });
       const passage = gsap.timeline({
         scrollTrigger: { trigger: q(".mp-passage")[0], start: "top top", end: "bottom bottom", scrub: true },
       });

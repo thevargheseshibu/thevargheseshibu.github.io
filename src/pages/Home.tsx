@@ -13,9 +13,9 @@ import MobilePortfolio from "../sections/mobile/MobilePortfolio";
 /** Story order: Hero → Portrait close-up → About → Selected Work → Engineering → Stack → Experience → Contact */
 export default function Home() {
   const { hash } = useLocation();
-  const [mobile, setMobile] = useState(() => window.matchMedia("(max-width:699px)").matches);
+  const [mobile, setMobile] = useState(() => window.matchMedia("(max-width:899px)").matches);
   useEffect(() => {
-    const query = window.matchMedia("(max-width:699px)");
+    const query = window.matchMedia("(max-width:899px)");
     const update = () => setMobile(query.matches);
     query.addEventListener("change", update);
     return () => query.removeEventListener("change", update);

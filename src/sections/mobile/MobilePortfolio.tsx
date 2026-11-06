@@ -19,6 +19,7 @@ import { scrollToTarget } from "../../lib/smooth-scroll";
 import ShowcaseFilm from "../../components/ShowcaseFilm";
 import { useMobileChoreography, useMobilePanelMotion } from "../../lib/mobile-choreography";
 import "../../styles/mobile-portfolio.css";
+import MobileArrival from "./MobileArrival";
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return <p className="mp-eyebrow">{children}</p>;
@@ -36,48 +37,6 @@ function ChapterLink({ to, children }: { to: string; children: React.ReactNode }
       {children}
       <span>↗</span>
     </a>
-  );
-}
-
-function MobileArrival() {
-  return (
-    <section id="top" className="mp-arrival" data-mobile-chapter="portrait" aria-labelledby="hero-title">
-      <img
-        className="mp-arrival-image"
-        data-portrait
-        src="/images/editorial/atelier-mobile.webp"
-        width={900}
-        height={1500}
-        alt="Varghese Shibu in the walnut atelier"
-        fetchPriority="high"
-      />
-      <div className="mp-arrival-shade" />
-      <div className="mp-arrival-copy">
-        <Eyebrow>Varghese Shibu / Creative engineering</Eyebrow>
-        <h1 id="hero-title">
-          Varghese <br />
-          <em>Shibu.</em>
-          <span className="sr-only"> — Full-Stack Developer</span>
-        </h1>
-        <p>
-          {profile.title}
-          <span>{profile.employer} · Bengaluru</span>
-        </p>
-        <ChapterLink to="work">Explore the work</ChapterLink>
-      </div>
-      <div className="mp-arrival-foot">
-        <span>Selected portfolio / 2026</span>
-        <a
-          href="#closeup"
-          onClick={(e) => {
-            e.preventDefault();
-            scrollToTarget("#closeup");
-          }}
-        >
-          Enter the experience ↓
-        </a>
-      </div>
-    </section>
   );
 }
 

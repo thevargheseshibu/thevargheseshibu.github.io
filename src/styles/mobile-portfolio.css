@@ -71,73 +71,6 @@
   --mp-gold: #657548;
   --mp-muted: #52614c;
 }
-.mp-arrival {
-  height: 100svh;
-  min-height: 730px;
-  overflow: hidden;
-  isolation: isolate;
-}
-.mp-arrival-image {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 60% 30%;
-}
-.mp-arrival-shade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(0deg, #08140ff7 2%, #08140fbd 27%, #08140f08 78%);
-}
-.mp-arrival-copy {
-  position: absolute;
-  left: 24px;
-  right: 24px;
-  bottom: 106px;
-}
-.mp-arrival-copy > .mp-eyebrow {
-  font-size: 9px;
-}
-.mp-arrival-copy h1 {
-  font: 400 clamp(78px, 22vw, 112px)/0.86 var(--mp-serif);
-  letter-spacing: -0.035em;
-  margin: 23px 0 27px;
-}
-.mp-arrival-copy > p:not(.mp-eyebrow) {
-  font-size: 16px;
-  line-height: 1.6;
-  color: #e5e6d4;
-}
-.mp-arrival-copy > p > span {
-  display: block;
-  color: #b5c0aa;
-  font-size: 14px;
-}
-.mp-arrival-copy .mp-link {
-  margin-top: 18px;
-  max-width: 250px;
-}
-.mp-arrival-foot {
-  position: absolute;
-  bottom: 25px;
-  left: 24px;
-  right: 24px;
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  align-items: center;
-  font-size: 10px;
-  line-height: 1.5;
-  color: #bac5ad;
-}
-.mp-arrival-foot > a {
-  max-width: 95px;
-  text-align: right;
-  min-height: 44px;
-  display: flex;
-  align-items: center;
-}
 .mp-passage {
   height: 165svh;
   min-height: 1100px;
@@ -897,16 +830,6 @@
   .mp-heading h2 {
     font-size: 51px;
   }
-  .mp-arrival-copy {
-    left: 20px;
-    right: 20px;
-  }
-  .mp-arrival-copy h1 {
-    font-size: 77px;
-  }
-  .mp-arrival-copy > .mp-eyebrow {
-    font-size: 8px;
-  }
   .mp-role {
     padding-left: 19px;
   }
@@ -932,7 +855,6 @@
     height: 85svh;
     min-height: 600px;
   }
-  .mp-arrival-image,
   .mp-passage-image,
   .mp-passage-word {
     transform: none !important;
@@ -950,9 +872,6 @@
     position: relative;
     height: 700px;
   }
-  .mp-arrival {
-    min-height: 730px;
-  }
 }
 body:has(.mobile-portfolio) .site-nav {
   backdrop-filter: none;
@@ -961,22 +880,17 @@ body:has(.mobile-portfolio) .site-nav {
   display: none;
 }
 /* Mobile motion: depth and choreography without scroll interception or fixed reading cards. */
-.mp-arrival-copy,
 .mp-heading,
 .mp-film-stage,
 .mp-career,
 .mp-education > ol {
   perspective: 1000px;
 }
-.mp-arrival-copy h1,
 .mp-heading,
 .mp-film-shell,
 .mp-role,
 .mp-education-record {
   transform-origin: 50% 65%;
-}
-.mp-arrival-copy h1 {
-  backface-visibility: hidden;
 }
 .mp-passage-ribs {
   position: absolute;
