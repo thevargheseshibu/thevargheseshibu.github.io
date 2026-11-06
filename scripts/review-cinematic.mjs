@@ -1,0 +1,18 @@
+﻿import { chromium } from "@playwright/test";
+const browser=await chromium.launch();
+const page=await browser.newPage({viewport:{width:1440,height:900}});
+const errors=[];page.on("pageerror",e=>errors.push(e.message));
+await page.goto("http://127.0.0.1:4173");
+await page.locator("[data-portrait]").evaluate(img => img.decode());
+await page.waitForTimeout(1600);await page.screenshot({path:"artifacts/cinematic-assets/hero-desktop.png"});
+const scene=page.locator("#closeup");await scene.getByRole("button",{name:"01 Perspective"}).click();
+await page.locator('video[data-cinematic="architectural-passage"][data-ready="true"]').waitFor();await page.waitForTimeout(1200);
+await page.screenshot({path:"artifacts/cinematic-assets/architecture-desktop.png"});
+await page.locator("#contact").evaluate(el=>scrollTo(0,el.getBoundingClientRect().top+scrollY-80));
+await page.locator('video[data-cinematic="closing-cinema"][data-ready="true"]').waitFor();await page.waitForTimeout(1200);
+await page.screenshot({path:"artifacts/cinematic-assets/closing-desktop.png"});
+console.log(JSON.stringify({errors,films:await page.locator("video").evaluateAll(videos=>videos.map(v=>({name:v.dataset.cinematic,src:v.currentSrc,time:v.currentTime,paused:v.paused,ready:v.readyState})))}));
+await page.setViewportSize({width:390,height:844});await page.reload();await page.waitForTimeout(2500);await page.screenshot({path:"artifacts/cinematic-assets/hero-mobile.png"});
+await page.locator("#contact").evaluate(el=>scrollTo(0,el.getBoundingClientRect().top+scrollY-72));await page.waitForTimeout(1300);await page.screenshot({path:"artifacts/cinematic-assets/closing-mobile.png"});
+console.log(JSON.stringify({mobileFilms:await page.locator("video").count(),overflow:await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)}));
+await browser.close();
