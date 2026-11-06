@@ -1,0 +1,669 @@
+﻿.cinema {
+  --ivory: #efe7d6;
+  --gold: #c7ad80;
+  background: #0c1712;
+  color: var(--ivory);
+  overflow: clip;
+  font-family: var(--font-sans);
+  --progress: 0;
+}
+.cinema a {
+  color: inherit;
+  text-decoration: none;
+}
+.cinema button {
+  cursor: pointer;
+}
+.cinema :is(a, button):focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 5px;
+}
+.film-nav {
+  position: absolute;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 5%;
+  font-size: 13px;
+}
+.film-nav > a:first-child {
+  font:
+    28px Georgia,
+    serif;
+}
+.film-nav span,
+.film-eyebrow,
+.film-scroll,
+.film-credit,
+.film-index,
+.film-note {
+  font: 10px/1.8 var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.film-nav > a:first-child span {
+  margin-left: 10px;
+}
+.film-index {
+  position: fixed;
+  right: 18px;
+  top: 40%;
+  z-index: 30;
+  display: grid;
+  gap: 14px;
+}
+.film-index a {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  opacity: 0.45;
+  min-height: 30px;
+}
+.film-index b {
+  display: none;
+  font-weight: 400;
+}
+.film-index a[aria-current] {
+  opacity: 1;
+}
+.film-index a[aria-current] b {
+  display: block;
+}
+.film-chapter {
+  position: relative;
+  height: 175svh;
+  scroll-margin-top: 0;
+}
+.film-stage {
+  height: 100svh;
+  min-height: 760px;
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+  isolation: isolate;
+  perspective: 1400px;
+}
+.film-walk {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #0a110e;
+  z-index: -3;
+}
+.film-arrival .film-stage {
+  background: #101a13 url("/media/cinematic/arrival-poster.webp") center/cover;
+}
+.film-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #06110dd9, transparent 85%);
+  z-index: -1;
+}
+.film-arrival-title {
+  position: absolute;
+  left: 8%;
+  top: 28%;
+  transform: translate3d(0, calc(var(--progress) * -80px), calc(var(--progress) * 100px));
+  max-width: 85%;
+}
+.cinema h1,
+.cinema h2 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 0.94;
+  margin: 20px 0 26px;
+}
+.cinema h1 {
+  font-size: clamp(70px, 9.5vw, 165px);
+}
+.cinema h2 {
+  font-size: clamp(54px, 6vw, 100px);
+}
+.cinema em {
+  font-weight: 400;
+  color: #cbb58d;
+}
+.film-arrival-title > p:last-child,
+.film-copy > p:not(.film-eyebrow) {
+  font-size: 17px;
+  line-height: 1.75;
+  color: #c1c6b8;
+  max-width: 430px;
+}
+.film-eyebrow {
+  color: var(--gold);
+}
+.film-scroll {
+  position: absolute;
+  bottom: 40px;
+  left: 8%;
+}
+.film-credit {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-size: 8px;
+  letter-spacing: 0.04em;
+}
+.film-portal {
+  position: absolute;
+  inset: 9% 22%;
+  border: 1px solid #d1b98b44;
+  border-radius: 45% 45% 0 0;
+  transform: translateZ(calc(var(--progress) * 480px)) scale(calc(1 + var(--progress) * 0.45));
+  pointer-events: none;
+  opacity: calc(var(--progress) * 0.7);
+}
+.film-ritual .film-stage {
+  background: radial-gradient(ellipse at 65% 35%, #47513a, #15251b 55%, #0b1711);
+}
+.film-copy {
+  position: absolute;
+  left: 8%;
+  top: 25%;
+  width: 42%;
+}
+.film-library {
+  position: absolute;
+  inset: 0 0 0 50%;
+  display: flex;
+  gap: 4%;
+  transform: rotateY(-18deg) translateZ(calc(var(--progress) * 90px));
+  z-index: -2;
+}
+.film-library i {
+  width: 17%;
+  border-inline: 14px solid #473d28;
+  background: repeating-linear-gradient(0deg, #111d15 0 110px, #59492f 111px 120px);
+  box-shadow: inset 0 0 50px #000;
+}
+.film-original {
+  position: absolute;
+  right: 16%;
+  top: 19%;
+  width: clamp(170px, 20vw, 300px);
+  transform: rotateY(calc(-15deg + var(--progress) * 20deg)) translateY(calc(var(--progress) * -40px));
+  box-shadow: 30px 40px 90px #0008;
+}
+.film-original img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.film-original figcaption {
+  font-size: 10px;
+  line-height: 1.5;
+  padding: 12px;
+  background: #14261d;
+  color: #cab995;
+}
+.film-note {
+  display: block;
+  margin-top: 26px;
+  max-width: 320px;
+  font-size: 9px;
+  color: #9aab96;
+  letter-spacing: 0.06em;
+}
+.film-cup {
+  position: absolute;
+  right: 31%;
+  bottom: 15%;
+  width: 85px;
+  height: 54px;
+  border-radius: 8px 8px 35px 35px;
+  background: linear-gradient(90deg, #a9a18b, #ede4cc 50%, #bab59e);
+  box-shadow: 5px 20px 18px #0007;
+  transform: translateY(calc((1 - var(--progress)) * -40px));
+}
+.film-cup:after {
+  content: "";
+  position: absolute;
+  right: -24px;
+  top: 6px;
+  width: 30px;
+  height: 30px;
+  border: 7px solid #cec6af;
+  border-radius: 50%;
+  z-index: -1;
+}
+.film-cup span {
+  position: absolute;
+  inset: -7px 0 auto;
+  height: 16px;
+  background: #2a1b10;
+  border: 6px solid #d7cfb7;
+  border-radius: 50%;
+}
+.film-ring {
+  position: absolute;
+  bottom: 0;
+  right: 2%;
+  width: 60vw;
+  aspect-ratio: 1;
+  border: 1px solid #d7bc7a55;
+  border-radius: 50%;
+  transform: rotateX(65deg) scale(calc(0.1 + var(--progress) * 2));
+  opacity: calc(1 - var(--progress) * 0.6);
+}
+.film-project .film-stage {
+  background: #e3dbc9;
+  color: #18251c;
+  padding: 65px 8%;
+}
+.film-project-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 30px;
+}
+.film-project-heading h2 {
+  font-size: clamp(40px, 4.3vw, 70px);
+  margin: 0 0 25px;
+}
+.film-project-heading em {
+  color: #69704e;
+}
+.film-project .film-eyebrow {
+  color: #5e644b;
+}
+.film-product {
+  width: min(100%, 1000px);
+  margin: auto;
+  transform: rotateX(calc(8deg - var(--progress) * 8deg));
+  transform-origin: bottom;
+}
+.film-product .showcase-screen {
+  max-height: 51svh;
+  aspect-ratio: 16/9;
+}
+.film-product .showcase-controls {
+  color: #3e503c;
+}
+.film-product .showcase-controls button {
+  border-color: #55614366;
+}
+.film-project-caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  font-size: 14px;
+  line-height: 1.6;
+  padding-top: 14px;
+}
+.film-project-caption > div {
+  max-width: 550px;
+}
+.film-project-caption a {
+  border-bottom: 1px solid #5a6649;
+  align-self: start;
+  white-space: nowrap;
+  padding: 10px 0;
+}
+.film-engineer .film-stage {
+  background: radial-gradient(ellipse at 75% 45%, #284233, #0a1911 70%);
+}
+.film-engineer .film-copy {
+  width: 34%;
+  top: 22%;
+}
+.film-engineer h2 {
+  font-size: clamp(50px, 5vw, 85px);
+}
+.film-system {
+  position: absolute;
+  right: 9%;
+  top: 18%;
+  width: 43%;
+  transform: rotateY(calc(12deg - var(--progress) * 12deg));
+}
+.film-system-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.film-system button {
+  text-align: left;
+  background: #10251c;
+  border: 1px solid #b8a27355;
+  padding: 16px;
+  color: var(--ivory);
+  font-size: 15px;
+  min-height: 80px;
+  transition: background 0.2s;
+}
+.film-system button[aria-pressed="true"] {
+  background: #526144;
+  border-color: #e3c99b;
+}
+.film-system button span {
+  float: right;
+  font: 9px var(--font-mono);
+  color: var(--gold);
+}
+.film-system small {
+  display: block;
+  font-size: 10px;
+  color: #b8c5af;
+  margin-top: 8px;
+}
+.film-system article {
+  margin-top: 24px;
+  border-top: 1px solid #d1b88566;
+  padding-top: 20px;
+  min-height: 180px;
+}
+.film-system h3 {
+  font: 32px var(--font-serif);
+  margin: 8px 0;
+}
+.film-system article p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #bfc9b6;
+}
+.film-ascent .film-stage {
+  background: linear-gradient(115deg, #15291e, #303d2b);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7%;
+  padding: 12svh 10% 6svh 8%;
+}
+.film-ascent .film-copy {
+  position: relative;
+  inset: auto;
+  width: auto;
+  align-self: center;
+}
+.film-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-self: center;
+  transform: translateY(calc(30px - var(--progress) * 60px));
+  perspective: 900px;
+}
+.film-steps li {
+  padding: 15px 20px 15px calc(20px + var(--step) * 13px);
+  border-bottom: 1px solid #d4c09655;
+  border-left: 1px solid #d4c09655;
+  background: linear-gradient(90deg, #b7ad8220, transparent);
+  transform: rotateY(-8deg);
+  margin-left: calc(var(--step) * 12px);
+}
+.film-steps span {
+  font: 10px var(--font-mono);
+  color: #cab58d;
+}
+.film-steps h3 {
+  font: 26px var(--font-serif);
+  margin: 8px 0;
+}
+.film-steps p {
+  font-size: 12px;
+  color: #b6c1ac;
+}
+.film-invitation {
+  height: 130svh;
+}
+.film-invitation .film-stage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 90px 8% 30px;
+  background: radial-gradient(ellipse at 80% 30%, #3b4830, #101e16 65%);
+}
+.film-invitation h2 {
+  font-size: clamp(80px, 10vw, 160px);
+  transform: translateZ(calc(var(--progress) * 80px));
+  transform-origin: left;
+}
+.film-contact {
+  font-size: clamp(14px, 1.6vw, 24px);
+  border-bottom: 1px solid #bdab7c;
+  width: fit-content;
+  padding: 15px 0;
+}
+.film-invitation footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: auto;
+  padding-top: 40px;
+  font-size: 10px;
+  color: #b2bfa7;
+}
+.cinema[data-reduced="true"] .film-chapter {
+  height: auto;
+}
+.cinema[data-reduced="true"] .film-stage {
+  position: relative;
+}
+.cinema[data-reduced="true"] * {
+  transform: none !important;
+}
+@media (max-width: 699px) {
+  .film-nav {
+    padding: 22px;
+  }
+  .film-preview {
+    display: none;
+  }
+  .film-index {
+    right: 8px;
+    top: auto;
+    bottom: 16px;
+    display: flex;
+    gap: 6px;
+    background: #0b1a13ed;
+    padding: 4px 10px;
+    border: 1px solid #bdab7c33;
+  }
+  .film-index a {
+    min-width: 30px;
+    justify-content: center;
+  }
+  .film-index a b {
+    display: none !important;
+  }
+  .film-chapter {
+    height: 145svh;
+  }
+  .film-stage {
+    min-height: 800px;
+  }
+  .film-arrival-title {
+    left: 7%;
+    top: 31%;
+    max-width: 87%;
+  }
+  .cinema h1 {
+    font-size: clamp(58px, 13vw, 88px);
+    line-height: 1;
+  }
+  .film-arrival-title > p:last-child {
+    font-size: 15px;
+  }
+  .film-portal {
+    inset: 15% 8%;
+  }
+  .film-walk {
+    object-fit: contain;
+  }
+  .film-copy {
+    left: 7%;
+    top: 12%;
+    width: 84%;
+  }
+  .cinema h2 {
+    font-size: clamp(45px, 11vw, 66px);
+  }
+  .film-copy > p:not(.film-eyebrow) {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+  .film-original {
+    right: 13%;
+    top: 55%;
+    width: 150px;
+  }
+  .film-original figcaption {
+    font-size: 8px;
+  }
+  .film-library {
+    inset: 35% 0 0 15%;
+  }
+  .film-cup {
+    right: 65%;
+    bottom: 15%;
+    transform: scale(0.7);
+  }
+  .film-ring {
+    width: 110vw;
+    bottom: 0;
+    right: -15%;
+  }
+  .film-note {
+    font-size: 8px;
+    margin-top: 16px;
+  }
+  .film-project .film-stage {
+    padding: 75px 7% 40px;
+  }
+  .film-project-heading {
+    display: block;
+  }
+  .film-project-heading h2 {
+    font-size: 46px;
+    margin: 20px 0 35px;
+  }
+  .film-product {
+    transform: none;
+  }
+  .film-product .showcase-controls {
+    padding: 10px 0;
+  }
+  .film-product .showcase-controls > span {
+    font-size: 9px;
+    max-width: 150px;
+  }
+  .film-project-caption {
+    flex-direction: column;
+    font-size: 15px;
+    gap: 10px;
+  }
+  .film-project-caption a {
+    font-size: 14px;
+    min-height: 44px;
+  }
+  .film-engineer .film-stage {
+    min-height: 1060px;
+  }
+  .film-engineer .film-copy {
+    width: 85%;
+    top: 7%;
+  }
+  .film-engineer h2 {
+    font-size: 46px;
+  }
+  .film-system {
+    top: 36%;
+    right: 7%;
+    width: 86%;
+    transform: none;
+  }
+  .film-system-grid {
+    gap: 8px;
+  }
+  .film-system button {
+    padding: 12px;
+    font-size: 13px;
+    min-height: 78px;
+  }
+  .film-system small {
+    font-size: 9px;
+  }
+  .film-system article p {
+    font-size: 15px;
+  }
+  .film-ascent .film-stage {
+    display: block;
+    min-height: 1000px;
+    padding: 75px 7%;
+  }
+  .film-ascent .film-copy {
+    width: 100%;
+  }
+  .film-steps {
+    margin-top: 35px;
+    transform: none;
+  }
+  .film-steps li {
+    padding: 14px 12px;
+    margin-left: calc(var(--step) * 5px);
+  }
+  .film-steps h3 {
+    font-size: 24px;
+  }
+  .film-invitation .film-stage {
+    padding: 90px 7% 80px;
+  }
+  .film-invitation h2 {
+    font-size: clamp(64px, 14vw, 90px);
+  }
+  .film-contact {
+    font-size: 14px;
+    overflow-wrap: anywhere;
+  }
+  .film-invitation footer {
+    flex-direction: column;
+    font-size: 11px;
+    gap: 12px;
+  }
+  .film-credit {
+    bottom: 65px;
+  }
+  .film-scroll {
+    bottom: 110px;
+  }
+}
+@media (max-width: 699px) {
+  .film-engineer,
+  .film-ascent {
+    height: auto;
+  }
+  .film-engineer .film-stage {
+    position: relative;
+    height: auto;
+    min-height: 0;
+    padding: 75px 7% 105px;
+  }
+  .film-engineer .film-copy {
+    position: relative;
+    inset: auto;
+    width: 100%;
+  }
+  .film-system {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    margin-top: 40px;
+  }
+  .film-system article {
+    min-height: 0;
+  }
+  .film-ascent .film-stage {
+    position: relative;
+    height: auto;
+    min-height: 0;
+    padding-bottom: 100px;
+  }
+}

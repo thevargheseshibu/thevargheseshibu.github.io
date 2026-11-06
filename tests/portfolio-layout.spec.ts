@@ -2,6 +2,20 @@ import { expect, test } from "@playwright/test";
 
 test("the spatial model exposes every component and supports keyboard orbit", async ({ page }) => {
   await page.goto("/");
+  if (await page.locator(".mobile-portfolio").count()) {
+    for (const button of await page.locator(".mp-system-picker button").all()) {
+      const name = (await button.textContent())!.slice(2);
+      await button.click();
+      await expect(page.locator(".mp-inspector h3")).toHaveText(name);
+    }
+    const canvas = page.locator(".mp-system-world canvas");
+    const before = await canvas.evaluate((el) => (el as HTMLCanvasElement).toDataURL());
+    await page.locator(".mp-system-world").focus();
+    await page.keyboard.press("ArrowRight");
+    await expect.poll(() => canvas.evaluate((el) => (el as HTMLCanvasElement).toDataURL())).not.toBe(before);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
+    return;
+  }
   await expect(page.locator("#engineering")).toHaveAttribute("data-end", /\d/);
   await page.evaluate(() => {
     const e = document.getElementById("engineering")!;

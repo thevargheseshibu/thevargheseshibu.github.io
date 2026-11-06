@@ -1,0 +1,96 @@
+{
+  "origin": "https://kerasobha.com",
+  "capturedAt": "2026-11-06T09:26:29.140Z",
+  "capture": {
+    "width": 3840,
+    "height": 2160,
+    "deviceScaleFactor": 1
+  },
+  "stills": [
+    {
+      "name": "home",
+      "route": "/",
+      "path": "public/images/kerasobha/home-4k.webp",
+      "width": 3840,
+      "height": 2160,
+      "bytes": 514290
+    },
+    {
+      "name": "story",
+      "route": "/story/",
+      "path": "public/images/kerasobha/story-4k.webp",
+      "width": 3840,
+      "height": 2160,
+      "bytes": 470530
+    },
+    {
+      "name": "product",
+      "route": "/products/virgin-coconut-oil/",
+      "path": "public/images/kerasobha/product-4k.webp",
+      "width": 3840,
+      "height": 2160,
+      "bytes": 379398
+    },
+    {
+      "name": "order",
+      "route": "/order/",
+      "path": "public/images/kerasobha/order-4k.webp",
+      "width": 3840,
+      "height": 2160,
+      "bytes": 138784
+    }
+  ],
+  "recording": {
+    "path": "public/media/kerasobha/website-4k.mp4",
+    "width": 3840,
+    "height": 2160,
+    "bytes": 26629027,
+    "playback": {
+      "scrollHeight": 46648,
+      "seconds": 33.6,
+      "videos": [
+        {
+          "width": 0,
+          "height": 0,
+          "currentTime": 0
+        },
+        {
+          "width": 0,
+          "height": 0,
+          "currentTime": 0
+        },
+        {
+          "width": 0,
+          "height": 0,
+          "currentTime": 0
+        },
+        {
+          "width": 0,
+          "height": 0,
+          "currentTime": 0
+        },
+        {
+          "width": 1920,
+          "height": 1080,
+          "currentTime": 0.7072
+        },
+        {
+          "width": 0,
+          "height": 0,
+          "currentTime": 0
+        },
+        {
+          "width": 0,
+          "height": 0,
+          "currentTime": 0
+        },
+        {
+          "width": 0,
+          "height": 0,
+          "currentTime": 0
+        }
+      ]
+    },
+    "interaction": "Read-only public website capture. No clicks, form submissions or live iframe."
+  }
+}

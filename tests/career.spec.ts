@@ -5,6 +5,18 @@ test.use({ reducedMotion: "reduce" });
 
 test("all education records and research remain inspectable", async ({ page }) => {
   await page.goto("/");
+  if (await page.locator(".mobile-portfolio").count()) {
+    for (const record of education) {
+      const entry = page.locator(".mp-education-record").filter({ hasText: record.degree });
+      await expect(entry).toContainText(record.institution);
+      await expect(entry).toContainText(record.location);
+      await expect(entry).toContainText(record.start);
+      await expect(entry).toContainText(record.end);
+    }
+    await page.locator(".mp-education-record summary").click();
+    await expect(page.locator(".mp-education-record details")).toContainText("MEMNP authentication research");
+    return;
+  }
   for (const [index, record] of education.entries()) {
     await page.locator(".foundation-selector button").nth(index).click();
     const detail = page.locator(".foundation-record");
@@ -19,7 +31,21 @@ test("all education records and research remain inspectable", async ({ page }) =
 
 test("every career chapter preserves dates, responsibilities and promotions", async ({ page }) => {
   await page.goto("/");
-  await expect(page.locator("#top")).toContainText("Senior Software Engineer / BlueOptima");
+  await expect(page.locator("#top")).toContainText("Senior Software Engineer");
+  await expect(page.locator("#top")).toContainText("BlueOptima");
+  if (await page.locator(".mobile-portfolio").count()) {
+    for (const role of experience) {
+      const entry = page.locator(".mp-role").filter({ hasText: role.company });
+      await expect(entry.locator("h3")).toHaveText(role.company);
+      await expect(entry).toContainText(`${role.start} — ${role.end}`);
+      await entry.locator("summary").click();
+      for (const responsibility of role.responsibilities)
+        await expect(entry.locator("details")).toContainText(responsibility);
+      for (const position of role.positions || [])
+        await expect(entry.locator("details")).toContainText(`${position.start} — ${position.end}`);
+    }
+    return;
+  }
   for (const role of experience) {
     await page.locator(".journey-navigation button").filter({ hasText: role.company }).click();
     await expect(page.locator(".journey-detail>h3")).toHaveText(role.company);

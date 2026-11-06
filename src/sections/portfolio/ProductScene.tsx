@@ -1,27 +1,31 @@
-import { useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { kerasobha, engineeringProjects } from "../../data/content";
-import { useChapter } from "../../lib/use-chapter";
-import { ease } from "../../lib/cinematic-scene";
+
 import { SceneFooter } from "./PortraitScenes";
+import ShowcaseFilm from "../../components/ShowcaseFilm";
 
 const frames = [
-  { id: "story", title: "The origin", caption: "A story, rooted in Kerala.", image: "story-800.webp" },
-  { id: "home", title: "The experience", caption: "A considered first impression.", image: "home-800.webp" },
-  { id: "product", title: "The collection", caption: "From discovery to a daily ritual.", image: "product-800.webp" },
-  { id: "order", title: "The order", caption: "A clear path from interest to enquiry.", image: "order-800.webp" },
+  { id: "story", title: "The origin", caption: "A story, rooted in Kerala.", image: "story" },
+  { id: "home", title: "The experience", caption: "A considered first impression.", image: "home" },
+  { id: "product", title: "The collection", caption: "From discovery to a daily ritual.", image: "product" },
+  { id: "order", title: "The order", caption: "A clear path from interest to enquiry.", image: "order" },
 ];
+function positionPanels(el: HTMLElement, p: number) {
+  el.querySelectorAll<HTMLElement>(".product-plane").forEach((plane, i) => {
+    const offset = i - p * 3;
+    plane.style.transform = `translate3d(${offset * 102}%,${Math.abs(offset) * 8}%,${-Math.abs(offset) * 220}px) rotateY(${-offset * 18}deg) rotateZ(${offset * 2}deg)`;
+    plane.style.opacity = String(Math.max(0, 1 - Math.abs(offset) * 0.32));
+  });
+}
 export default function ProductScene() {
   const root = useRef<HTMLElement>(null);
   const [project, setProject] = useState(0);
-  const { active, choose } = useChapter(root, 2.8, 4, (el, p) => {
-    el.querySelectorAll<HTMLElement>(".product-plane").forEach((plane, i) => {
-      const offset = i - p * 3;
-      plane.style.transform = `translate3d(${offset * 102}%,${Math.abs(offset) * 8}%,${-Math.abs(offset) * 220}px) rotateY(${-offset * 18}deg) rotateZ(${offset * 2}deg)`;
-      plane.style.opacity = String(Math.max(0, 1 - Math.abs(offset) * 0.32));
-    });
-    el.querySelector<HTMLElement>(".product-orbit")!.style.transform = `rotate(${-25 + ease(p) * 50}deg)`;
-  });
+  const [film, setFilm] = useState(true);
+  const [active, choose] = useState(0);
+  useLayoutEffect(() => {
+    if (root.current) positionPanels(root.current, active / 3);
+  }, [film, active]);
   const item = engineeringProjects[project];
   return (
     <>
@@ -30,6 +34,7 @@ export default function ProductScene() {
         ref={root}
         className="portfolio-scene product-scene"
         data-scene="product"
+        data-static="true"
         aria-labelledby="work-title"
       >
         <div className="scene-stage">
@@ -43,27 +48,35 @@ export default function ProductScene() {
             </h2>
           </div>
           <div className="product-theatre" aria-label="Kerasobha product journey">
-            {frames.map((frame, i) => (
-              <figure key={frame.id} className="product-plane" aria-hidden={active !== i}>
-                <div className="product-chrome">
-                  <span />
-                  <span />
-                  <span />
-                  <small>kerasobha.com / {frame.title}</small>
-                </div>
-                <img
-                  src={`/images/kerasobha/${frame.image}`}
-                  width={800}
-                  height={500}
-                  loading="lazy"
-                  alt={`Kerasobha ${frame.title.toLowerCase()} — actual site capture`}
-                />
-                <figcaption>{frame.caption}</figcaption>
-              </figure>
-            ))}
+            {film ? (
+              <div className="product-live-frame">
+                <ShowcaseFilm />
+              </div>
+            ) : (
+              frames.map((frame, i) => (
+                <figure key={frame.id} className="product-plane" aria-hidden={active !== i}>
+                  <div className="product-chrome">
+                    <span />
+                    <span />
+                    <span />
+                    <small>kerasobha.com / {frame.title}</small>
+                  </div>
+                  <img
+                    src={`/images/kerasobha/${frame.image}-4k.webp`}
+                    srcSet={`/images/kerasobha/${frame.image}-1920.webp 1920w, /images/kerasobha/${frame.image}-4k.webp 3840w`}
+                    sizes="70vw"
+                    width={3840}
+                    height={2160}
+                    loading="lazy"
+                    alt={`Kerasobha ${frame.title.toLowerCase()} — actual site capture`}
+                  />
+                  <figcaption>{frame.caption}</figcaption>
+                </figure>
+              ))
+            )}
           </div>
           <div className="product-caption">
-            <span className="scene-label">Kerasobha / {frames[active].title}</span>
+            <span className="scene-label">Kerasobha / {film ? "Website film" : frames[active].title}</span>
             <p>{kerasobha.summary}</p>
             <div>
               <Link className="scene-link" to="/work/kerasobha">
@@ -76,11 +89,21 @@ export default function ProductScene() {
           </div>
           <div className="scene-selector product-selector" aria-label="Product chapters">
             {frames.map((frame, i) => (
-              <button key={frame.id} onClick={() => choose(i)} aria-pressed={active === i}>
+              <button
+                key={frame.id}
+                onClick={() => {
+                  setFilm(false);
+                  choose(i);
+                }}
+                aria-pressed={!film && active === i}
+              >
                 <span>0{i + 1}</span>
                 {frame.title}
               </button>
             ))}
+            <button onClick={() => setFilm(true)} aria-pressed={film}>
+              Website film
+            </button>
           </div>
           <SceneFooter title="Product / Design & full-stack engineering" next="engineering" />
         </div>

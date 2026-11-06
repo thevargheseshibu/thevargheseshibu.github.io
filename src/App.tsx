@@ -8,6 +8,7 @@ import { ScrollTrigger } from "./lib/motion";
 const CaseStudy = lazy(() => import("./pages/CaseStudy"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const CinematicLab = lazy(() => import("./pages/CinematicLab"));
+const Cinematic = lazy(() => import("./pages/Cinematic"));
 
 function RouteEffects() {
   const { pathname, hash } = useLocation();
@@ -45,12 +46,13 @@ export default function App() {
         Skip to content
       </a>
       <RouteEffects />
-      {pathname !== "/cinematic-lab" && <Nav />}
+      {!pathname.startsWith("/cinematic") && <Nav />}
       <Suspense fallback={<div className="min-h-dvh bg-ink" />}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/work/kerasobha" element={<CaseStudy />} />
           <Route path="/cinematic-lab" element={<CinematicLab />} />
+          <Route path="/cinematic" element={<Cinematic />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

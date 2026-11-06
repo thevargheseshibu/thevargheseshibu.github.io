@@ -1,0 +1,103 @@
+.showcase-film {
+  width: 100%;
+  color: #eee8d8;
+}
+.showcase-screen {
+  position: relative;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: #10251b;
+  isolation: isolate;
+}
+.showcase-screen > img,
+.showcase-screen > video {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+.showcase-badge {
+  position: absolute;
+  z-index: 2;
+  left: 14px;
+  top: 12px;
+  background: #0d211cdd;
+  border: 1px solid #b3a58055;
+  padding: 8px 10px;
+  font: 9px var(--font-mono);
+  letter-spacing: 0.04em;
+  pointer-events: none;
+}
+.showcase-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 46px;
+  padding: 5px 0;
+  font-size: 10px;
+  color: #b9c6b2;
+}
+.showcase-controls > div {
+  display: flex;
+  gap: 6px;
+}
+.showcase-controls button {
+  min-width: 48px;
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 1px solid #8c9b7055;
+  font-size: 11px;
+  cursor: pointer;
+}
+.showcase-controls button[aria-pressed="true"] {
+  color: #e2c99c;
+  border-color: #e2c99c;
+}
+.product-live-frame {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 50%;
+}
+.product-live-frame .showcase-film {
+  height: 100%;
+}
+.product-live-frame .showcase-screen {
+  height: 100%;
+  aspect-ratio: auto;
+}
+.product-live-frame .showcase-controls {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+}
+@media (max-width: 699px) {
+  .showcase-badge {
+    left: 12px;
+    top: 12px;
+    font-size: 9px;
+  }
+  .showcase-controls {
+    padding: 8px 22px;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+  .showcase-controls > span {
+    max-width: 180px;
+  }
+  .showcase-controls button {
+    min-height: 44px;
+  }
+  .showcase-screen {
+    aspect-ratio: 16/9;
+  }
+  .showcase-screen > video,
+  .showcase-screen > img {
+    object-fit: contain;
+  }
+}

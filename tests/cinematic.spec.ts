@@ -1,15 +1,19 @@
 import { expect, test } from "@playwright/test";
 
-test("the main portfolio has reversible scenes without autoplay media requests", async ({ page }) => {
+test("the website recording stays deferred until its read-only preview approaches", async ({ page }) => {
   const videos: string[] = [];
   page.on("request", (r) => {
     if (/\.(mp4|webm)(\?|$)/.test(r.url())) videos.push(r.url());
   });
   await page.goto("/");
-  await expect(page.locator("[data-scene]")).toHaveCount(9);
-  await expect(page.locator("video")).toHaveCount(0);
-  await expect(page.locator(".passage-photo")).toHaveAttribute("src", /architectural-passage.webp/);
+  await expect(page.locator("[data-scene],[data-mobile-chapter]")).toHaveCount(9);
+  await expect(page.locator(".showcase-screen video")).toHaveCount(0);
   expect(videos).toEqual([]);
+  await page.locator(".showcase-film").scrollIntoViewIfNeeded();
+  await expect(page.locator(".showcase-screen video")).toHaveCount(1);
+  await expect(page.locator(".showcase-screen video")).toHaveJSProperty("controls", false);
+  await expect(page.locator(".showcase-screen video")).toHaveCSS("pointer-events", "none");
+  await expect(page.locator("iframe")).toHaveCount(0);
 });
 
 test("the original lab still synchronizes its film with scrolling", async ({ page }) => {
