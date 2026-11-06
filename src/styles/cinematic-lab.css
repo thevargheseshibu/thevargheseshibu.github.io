@@ -1,0 +1,523 @@
+.cinematic-lab {
+  --lab-gold: #cfb98e;
+  --lab-paper: #f0e8d8;
+  background: #0c1511;
+  color: var(--lab-paper);
+}
+.lab-stage {
+  position: relative;
+  height: 100svh;
+  min-height: 640px;
+  overflow: hidden;
+  isolation: isolate;
+  background: #0b130f;
+}
+.lab-stage button,
+.lab-stage a {
+  -webkit-tap-highlight-color: transparent;
+}
+.lab-stage button {
+  cursor: pointer;
+}
+.lab-stage button:focus-visible,
+.lab-stage a:focus-visible {
+  outline: 2px solid #e9d3a7;
+  outline-offset: 5px;
+}
+.lab-atmosphere {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 46%, #344234 0%, #18271f 28%, #0a130e 73%);
+  opacity: calc(0.3 + var(--world-light, 0) * 0.7);
+}
+.lab-portrait,
+.lab-passage {
+  position: absolute;
+  inset: 0;
+  will-change: transform, clip-path;
+}
+.lab-portrait {
+  transform-origin: 50% 50%;
+}
+.lab-portrait picture,
+.lab-portrait img,
+.lab-passage video,
+.lab-passage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.lab-portrait img {
+  object-position: 66% center;
+}
+.lab-portrait-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #080f0c85, transparent 75%), linear-gradient(0deg, #090f0cc9, transparent 30%);
+  box-shadow: inset 0 0 120px #0005;
+}
+.lab-passage {
+  opacity: 0;
+  clip-path: inset(43% 46%);
+}
+.lab-passage:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, #0b130fbb, transparent 40%, #0b130f33);
+}
+.lab-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.lab-header {
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 4%;
+  font-size: 11px;
+  letter-spacing: 0.11em;
+}
+.lab-monogram {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font: italic 30px var(--font-serif);
+  text-decoration: none;
+  color: var(--lab-paper);
+}
+.lab-monogram span {
+  font: 11px var(--font-sans);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+.lab-edition {
+  color: #c5beaa;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+.lab-header > button {
+  border-bottom: 1px solid #b1a58b85;
+  padding: 10px 0;
+}
+.lab-header > button span {
+  margin-left: 22px;
+  color: var(--lab-gold);
+}
+.lab-eyebrow {
+  font: 10px var(--font-mono);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--lab-gold);
+  line-height: 1.6;
+}
+.lab-intro {
+  position: absolute;
+  top: 27%;
+  left: 7%;
+  width: 54%;
+  pointer-events: none;
+}
+.lab-intro h1 {
+  font: 400 clamp(65px, 7.8vw, 138px)/0.94 var(--font-serif);
+  letter-spacing: -0.04em;
+  margin: 26px 0 30px;
+}
+.lab-intro h1 em {
+  font-weight: 400;
+  color: #d9c7a6;
+}
+.lab-intro-note {
+  font-size: 12px;
+  line-height: 1.7;
+  letter-spacing: 0.03em;
+  color: #c3c3b4;
+}
+.lab-crossing {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  width: 90%;
+  text-shadow: 0 3px 30px #000;
+}
+.lab-crossing p {
+  font: clamp(64px, 9vw, 145px)/0.9 var(--font-serif);
+  letter-spacing: -0.04em;
+  margin-top: 24px;
+}
+.lab-crossing em {
+  color: #e6d0a8;
+}
+.lab-world-title {
+  position: absolute;
+  left: 7%;
+  top: 16%;
+  pointer-events: none;
+  opacity: 0;
+}
+.lab-world-title h2 {
+  font: clamp(40px, 5vw, 80px)/1.05 var(--font-serif);
+  letter-spacing: -0.025em;
+  margin-top: 10px;
+}
+.lab-world-title em {
+  color: #d4c09b;
+}
+.lab-interface {
+  opacity: 0;
+  position: absolute;
+  inset: 0;
+}
+.lab-orbit {
+  position: absolute;
+  inset: 27% 0 22%;
+  cursor: grab;
+  touch-action: pan-y;
+}
+/* Projected coordinates are relative to the stage, not the orbit hit surface. */
+.lab-orbit {
+  inset: 0;
+}
+.lab-orbit:active {
+  cursor: grabbing;
+}
+.lab-node {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  white-space: nowrap;
+  background: #11241deb;
+  border: 1px solid #82927877;
+  padding: 10px 13px;
+  font-size: 12px;
+  box-shadow: 0 12px 25px #0005;
+  touch-action: manipulation;
+}
+.lab-node small {
+  font: 8px var(--font-mono);
+  color: #abac92;
+  display: block;
+  text-align: left;
+  margin-bottom: 4px;
+}
+.lab-node.selected {
+  background: #e0cda8;
+  color: #17241a;
+  border-color: #f3e2c4;
+}
+.lab-node.selected small {
+  color: #46543e;
+}
+.lab-node.traced {
+  outline: 1px solid #efdaad;
+  outline-offset: 4px;
+}
+.lab-inspector {
+  position: absolute;
+  right: 4%;
+  top: 28%;
+  width: 230px;
+  padding: 22px;
+  border-top: 1px solid #aaab8466;
+  background: #101e17e8;
+  backdrop-filter: blur(16px);
+}
+.lab-inspector h3 {
+  font: 32px var(--font-serif);
+  margin: 12px 0;
+}
+.lab-inspector > p:not(.lab-eyebrow) {
+  font-size: 12px;
+  line-height: 1.7;
+  color: #c2c8b8;
+}
+.lab-inspector-foot {
+  display: block;
+  font: 8px/1.6 var(--font-mono);
+  color: #9baf9b;
+  margin-top: 20px;
+}
+.lab-tools {
+  position: absolute;
+  left: 7%;
+  bottom: 17%;
+  max-width: 460px;
+}
+.lab-tools > div {
+  display: flex;
+  gap: 7px;
+  margin: 12px 0;
+}
+.lab-tools button {
+  border: 1px solid #83907766;
+  padding: 9px 12px;
+  font-size: 10px;
+  background: #11251c;
+}
+.lab-tools button[aria-pressed="true"] {
+  background: #d3bf99;
+  color: #13221a;
+}
+.lab-tools > p {
+  font-size: 11px;
+  line-height: 1.6;
+  color: #b6c0b0;
+  min-height: 36px;
+}
+.lab-camera {
+  position: absolute;
+  right: 4%;
+  bottom: 18%;
+  display: flex;
+  border: 1px solid #74826b77;
+  background: #102017;
+}
+.lab-camera button {
+  font-size: 10px;
+  padding: 11px 14px;
+}
+.lab-camera button:first-child,
+.lab-camera button:last-child {
+  font-size: 16px;
+}
+.lab-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  padding: 25px 4% 29px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: linear-gradient(0deg, #08100cbb, transparent);
+}
+.lab-chapters {
+  display: flex;
+  gap: 28px;
+}
+.lab-chapters button {
+  text-align: left;
+  font-size: 10px;
+  color: #a7ad9b;
+  display: flex;
+  gap: 9px;
+  align-items: center;
+}
+.lab-chapters button span {
+  font: 9px var(--font-mono);
+  opacity: 0.6;
+}
+.lab-chapters button b {
+  font-weight: 400;
+}
+.lab-chapters button[aria-current] {
+  color: #f0dfb9;
+}
+.lab-scroll-note {
+  font-size: 10px;
+  color: #c3c5b3;
+}
+.lab-counter {
+  font: 9px var(--font-mono);
+  color: #c9c3af;
+}
+.lab-meter {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #cdb99122;
+  z-index: 6;
+}
+.lab-meter-fill {
+  height: 100%;
+  background: #d0b47c;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+@media (min-width: 1100px) {
+  .lab-inspector {
+    top: 35%;
+    width: 225px;
+  }
+}
+@media (max-width: 900px) and (min-width: 651px) {
+  .lab-inspector {
+    top: auto;
+    bottom: 27%;
+    width: 210px;
+    padding: 15px;
+  }
+  .lab-tools {
+    max-width: 350px;
+    bottom: 14%;
+  }
+  .lab-camera {
+    bottom: 16%;
+  }
+  .lab-chapters {
+    gap: 15px;
+  }
+}
+@media (max-width: 650px) {
+  .lab-stage {
+    min-height: 700px;
+  }
+  .lab-header {
+    padding: 22px 6%;
+  }
+  .lab-monogram span,
+  .lab-edition {
+    display: none;
+  }
+  .lab-header > button {
+    font-size: 10px;
+  }
+  .lab-portrait img {
+    object-position: 62% center;
+  }
+  .lab-portrait-shade {
+    background: linear-gradient(0deg, #070e0c 0%, #070e0c77 44%, transparent 85%);
+  }
+  .lab-intro {
+    top: auto;
+    bottom: 19%;
+    left: 7%;
+    width: 87%;
+  }
+  .lab-intro h1 {
+    font-size: clamp(52px, 13.8vw, 83px);
+    margin: 18px 0;
+  }
+  .lab-intro .lab-eyebrow {
+    font-size: 8px;
+  }
+  .lab-intro-note {
+    font-size: 10px;
+  }
+  .lab-world-title {
+    top: 14%;
+    left: 6%;
+    right: 6%;
+  }
+  .lab-world-title h2 {
+    font-size: 43px;
+    max-width: 310px;
+  }
+  .lab-world-title .lab-eyebrow {
+    font-size: 8px;
+  }
+  .lab-node {
+    padding: 6px 8px;
+    font-size: 9px;
+  }
+  .lab-node small {
+    font-size: 7px;
+    margin-bottom: 2px;
+  }
+  .lab-inspector {
+    top: auto;
+    bottom: 27%;
+    left: 6%;
+    right: 6%;
+    width: auto;
+    padding: 12px 15px;
+  }
+  .lab-inspector .lab-eyebrow {
+    font-size: 8px;
+  }
+  .lab-inspector h3 {
+    font-size: 25px;
+    margin: 5px 0;
+  }
+  .lab-inspector > p:not(.lab-eyebrow) {
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  .lab-inspector-foot {
+    display: none;
+  }
+  .lab-tools {
+    bottom: 12%;
+    left: 6%;
+    right: 6%;
+    max-width: none;
+  }
+  .lab-tools > .lab-eyebrow {
+    display: none;
+  }
+  .lab-tools > div {
+    margin: 8px 0;
+    gap: 5px;
+  }
+  .lab-tools button {
+    font-size: 9px;
+    padding: 8px;
+  }
+  .lab-tools > p {
+    font-size: 9px;
+    min-height: 40px;
+  }
+  .lab-camera {
+    right: 6%;
+    top: 26%;
+    bottom: auto;
+  }
+  .lab-camera button {
+    padding: 5px 10px;
+    font-size: 8px;
+  }
+  .lab-footer {
+    padding: 17px 6% 22px;
+    gap: 10px;
+  }
+  .lab-chapters {
+    gap: 15px;
+  }
+  .lab-chapters button {
+    font-size: 8px;
+    gap: 4px;
+  }
+  .lab-chapters button span {
+    font-size: 7px;
+  }
+  .lab-scroll-note {
+    display: none;
+  }
+  .lab-counter {
+    font-size: 7px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lab-stage {
+    min-height: 850px;
+  }
+  .lab-portrait,
+  .lab-passage,
+  .lab-intro,
+  .lab-crossing {
+    display: none;
+  }
+  .lab-world-title {
+    top: 13%;
+  }
+  .lab-header > button {
+    display: none;
+  }
+  .lab-chapters button:not(:last-child) {
+    display: none;
+  }
+}
