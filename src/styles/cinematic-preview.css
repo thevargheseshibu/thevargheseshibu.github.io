@@ -667,3 +667,92 @@
     padding-bottom: 100px;
   }
 }
+.film-ritual-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: -3;
+  transform: scale(calc(1 + var(--progress) * 0.035));
+}
+.film-ritual-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #07140de8, #07140d99 38%, #07140d00 68%);
+  z-index: -2;
+}
+.film-ritual .film-ring {
+  right: 15%;
+  bottom: -28%;
+  width: 50vw;
+  opacity: calc(var(--progress) * 0.35);
+  pointer-events: none;
+}
+.film-ritual .film-copy {
+  width: 42%;
+}
+.film-ritual .film-copy h2 {
+  font-size: clamp(54px, 5.8vw, 100px);
+}
+@media (max-width: 699px) {
+  .film-ritual {
+    height: 165svh;
+  }
+  .film-ritual .film-stage {
+    min-height: 900px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: #102017;
+  }
+  .film-ritual .film-copy {
+    position: relative;
+    inset: auto;
+    width: auto;
+    padding: 80px 7% 30px;
+    order: -1;
+    z-index: 2;
+  }
+  .film-ritual .film-copy h2 {
+    font-size: clamp(45px, 11vw, 66px);
+  }
+  .film-ritual-photo {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: 58svh;
+    min-height: 430px;
+    object-fit: cover;
+    object-position: 78% 40%;
+    z-index: 0;
+    transform: none;
+  }
+  .film-ritual-shade {
+    inset: auto 0 30% 0;
+    height: 100px;
+    background: linear-gradient(#102017, transparent);
+    z-index: 1;
+    pointer-events: none;
+    display: none;
+  }
+  .film-ritual .film-credit {
+    bottom: 65px;
+    left: 7%;
+    right: auto;
+    z-index: 2;
+    background: #0b1a13b0;
+    padding: 3px 6px;
+    font-size: 7px;
+  }
+  .film-ritual .film-ring {
+    z-index: 1;
+    bottom: -2%;
+    right: -10%;
+    width: 100vw;
+  }
+  .film-ritual .film-copy > p:not(.film-eyebrow) {
+    margin-bottom: 0;
+  }
+}

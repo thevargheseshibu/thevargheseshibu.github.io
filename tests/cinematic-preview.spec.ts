@@ -1,8 +1,8 @@
 ﻿import { expect, test } from "@playwright/test";
-test("cinematic preview keeps exact original face, reversible film, and usable engineering", async ({ page }) => {
+test("cinematic preview shows the revised coffee scene, reversible film, and usable engineering", async ({ page }) => {
   await page.goto("/cinematic");
   await expect(page.locator(".film-chapter")).toHaveCount(6);
-  await expect(page.locator(".film-original img")).toHaveAttribute("src", "/images/cinematic/original-portrait.jpg");
+  await expect(page.locator(".film-ritual-photo")).toHaveAttribute("src", "/images/cinematic/coffee-natural-v2.webp");
   await expect(page.locator('img[src*="portrait.webp"]')).toHaveCount(0);
   await expect
     .poll(() => page.locator(".film-walk").evaluate((v: HTMLVideoElement) => v.readyState))

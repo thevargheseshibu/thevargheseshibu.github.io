@@ -102,13 +102,15 @@ export default function Cinematic() {
       </section>
       <section className="film-chapter film-ritual" id="act-1" aria-label="Ritual">
         <div className="film-stage">
-          <div className="film-library" aria-hidden="true">
-            <i />
-            <i />
-            <i />
-            <i />
-            <i />
-          </div>
+          <img
+            className="film-ritual-photo"
+            src="/images/cinematic/coffee-natural-v2.webp"
+            alt="AI-created portrait of Varghese Shibu relaxing with coffee in a heritage library"
+            width="1672"
+            height="941"
+            loading="lazy"
+          />
+          <div className="film-ritual-shade" aria-hidden="true" />
           <div className="film-ring" aria-hidden="true" />
           <div className="film-copy">
             <p className="film-eyebrow">02 / The ritual</p>
@@ -118,20 +120,8 @@ export default function Cinematic() {
               <em>the thought.</em>
             </h2>
             <p>{profile.about[1]}</p>
-            <span className="film-note">Original portrait. Coffee motion awaits likeness review.</span>
           </div>
-          <figure className="film-original">
-            <img
-              src="/images/cinematic/original-portrait.jpg"
-              alt="Original photograph of Varghese Shibu"
-              width="1080"
-              height="1080"
-            />
-            <figcaption>Varghese Shibu / Original photograph</figcaption>
-          </figure>
-          <div className="film-cup" aria-hidden="true">
-            <span />
-          </div>
+          <span className="film-credit">AI portrait ? Based on original photographs</span>
         </div>
       </section>
       <section className="film-chapter film-project" id="act-2" aria-label="The portal">
