@@ -17,8 +17,6 @@ import { createWorld } from "../../lib/cinematic-world";
 import { gsap, ScrollTrigger, useReducedMotion } from "../../lib/motion";
 import { scrollToTarget } from "../../lib/smooth-scroll";
 import ShowcaseFilm from "../../components/ShowcaseFilm";
-import ArchitecturalFilm from "../../components/ArchitecturalFilm";
-import { usePortfolioPreview, originalPortrait } from "../../lib/portfolio-preview";
 import "../../styles/mobile-portfolio.css";
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
@@ -41,7 +39,6 @@ function ChapterLink({ to, children }: { to: string; children: React.ReactNode }
 }
 
 function MobileArrival() {
-  const preview = usePortfolioPreview();
   const root = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
   useEffect(() => {
@@ -61,10 +58,10 @@ function MobileArrival() {
       <img
         className="mp-arrival-image"
         data-portrait
-        src={preview ? originalPortrait.src : "/images/editorial/atelier-mobile.webp"}
+        src="/images/editorial/atelier-mobile.webp"
         width={900}
         height={1500}
-        alt={preview ? originalPortrait.alt : "Varghese Shibu in the walnut atelier"}
+        alt="Varghese Shibu in the walnut atelier"
         fetchPriority="high"
       />
       <div className="mp-arrival-shade" />
@@ -98,7 +95,6 @@ function MobileArrival() {
 }
 
 function MobilePassage() {
-  const preview = usePortfolioPreview();
   const root = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
   useEffect(() => {
@@ -122,20 +118,12 @@ function MobilePassage() {
       aria-labelledby="closeup-title"
     >
       <div className="mp-passage-stage">
-        {preview ? (
-          <div className="mp-passage-image mp-passage-film">
-            <ArchitecturalFilm chapter={root} native />
-          </div>
-        ) : (
-          <>
-            <img
-              className="mp-passage-image"
-              src="/media/cinematic/architectural-passage.webp"
-              alt="A passage through warm walnut, travertine and light"
-              loading="lazy"
-            />
-          </>
-        )}
+        <img
+          className="mp-passage-image"
+          src="/media/cinematic/architectural-passage.webp"
+          alt="A passage through warm walnut, travertine and light"
+          loading="lazy"
+        />
         <div className="mp-passage-shade" />
         <div className="mp-passage-frame" aria-hidden="true" />
         <div className="mp-passage-word">
@@ -158,7 +146,6 @@ function MobilePassage() {
 }
 
 function MobileAbout() {
-  const preview = usePortfolioPreview();
   return (
     <section id="about" className="mp-about mp-paper" data-mobile-chapter="perspective" aria-labelledby="about-title">
       <div className="mp-heading">
@@ -171,11 +158,11 @@ function MobileAbout() {
       </div>
       <figure className="mp-about-photo">
         <img
-          src={preview ? originalPortrait.src : "/images/editorial/architect.webp"}
+          src="/images/editorial/architect.webp"
           width={1400}
           height={788}
           loading="lazy"
-          alt={preview ? originalPortrait.alt : "Varghese against limestone architecture"}
+          alt="Varghese against limestone architecture"
         />
         <figcaption>Engineer by discipline. Creator by instinct.</figcaption>
       </figure>
@@ -359,12 +346,7 @@ function MobileSystem() {
         <h3>{node.label}</h3>
         <p>{node.description}</p>
       </article>
-      <button
-        className="mp-trace"
-        onClick={() => setTrace(!trace)}
-        aria-pressed={trace}
-        aria-label={trace ? "Hide enquiry route" : "Trace an enquiry"}
-      >
+      <button className="mp-trace" onClick={() => setTrace(!trace)} aria-pressed={trace} aria-label={trace?"Hide enquiry route":"Trace an enquiry"}>
         {trace ? "Hide enquiry route" : "Trace an enquiry"}
         <span aria-hidden="true">↗</span>
       </button>
@@ -613,7 +595,6 @@ function MobileEducation() {
 }
 
 function MobileContact() {
-  const preview = usePortfolioPreview();
   const [copied, setCopied] = useState(false),
     [error, setError] = useState(false);
   const copy = async () => {
@@ -629,10 +610,10 @@ function MobileContact() {
     <section id="contact" className="mp-contact" data-mobile-chapter="closing" aria-labelledby="contact-title">
       <div className="mp-contact-portrait">
         <img
-          src={preview ? originalPortrait.src : "/images/editorial/after-hours.webp"}
+          src="/images/editorial/after-hours.webp"
           width={1400}
           height={788}
-          alt={preview ? originalPortrait.alt : "An evening portrait of Varghese Shibu"}
+          alt="An evening portrait of Varghese Shibu"
           loading="lazy"
         />
         <div />

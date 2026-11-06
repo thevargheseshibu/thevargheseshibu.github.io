@@ -1,12 +1,10 @@
 import { useRef, useState } from "react";
-import { usePortfolioPreview, originalPortrait } from "../../lib/portfolio-preview";
 import { profile, socials } from "../../data/content";
 import { useChapter } from "../../lib/use-chapter";
 import { ease, phase } from "../../lib/cinematic-scene";
 import { scrollToTarget } from "../../lib/smooth-scroll";
 
 export default function ClosingScene() {
-  const preview = usePortfolioPreview();
   const root = useRef<HTMLElement>(null);
   const [copied, setCopied] = useState(false),
     [copyError, setCopyError] = useState(false);
@@ -38,11 +36,11 @@ export default function ClosingScene() {
       <div className="scene-stage">
         <div className="closing-iris">
           <img
-            src={preview ? originalPortrait.src : "/images/editorial/after-hours.webp"}
+            src="/images/editorial/after-hours.webp"
             width={1672}
             height={941}
             loading="lazy"
-            alt={preview ? originalPortrait.alt : "An evening portrait of Varghese Shibu"}
+            alt="An evening portrait of Varghese Shibu"
           />
           <div />
         </div>

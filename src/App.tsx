@@ -1,5 +1,5 @@
 import { Suspense, lazy, useEffect } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Nav from "./components/Nav";
 import { startSmoothScroll, stopSmoothScroll } from "./lib/smooth-scroll";
@@ -8,7 +8,6 @@ import { ScrollTrigger } from "./lib/motion";
 const CaseStudy = lazy(() => import("./pages/CaseStudy"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const CinematicLab = lazy(() => import("./pages/CinematicLab"));
-const Cinematic = lazy(() => import("./pages/Cinematic"));
 
 function RouteEffects() {
   const { pathname, hash } = useLocation();
@@ -52,7 +51,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/work/kerasobha" element={<CaseStudy />} />
           <Route path="/cinematic-lab" element={<CinematicLab />} />
-          <Route path="/cinematic" element={<Cinematic />} />
+          <Route path="/cinematic" element={<Navigate to="/" replace />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

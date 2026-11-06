@@ -1,6 +1,4 @@
 import { useRef } from "react";
-import ArchitecturalFilm from "../../components/ArchitecturalFilm";
-import { usePortfolioPreview, originalPortrait } from "../../lib/portfolio-preview";
 import { Link } from "react-router-dom";
 import { profile } from "../../data/content";
 import { ease, phase } from "../../lib/cinematic-scene";
@@ -29,7 +27,6 @@ export function SceneFooter({ title, next }: { title: string; next?: string }) {
 }
 
 export function PortraitScene() {
-  const preview = usePortfolioPreview();
   const root = useRef<HTMLElement>(null);
   useChapter(root, 1.8, 1, (el, p) => {
     const pull = ease(p);
@@ -51,28 +48,22 @@ export function PortraitScene() {
     >
       <div className="scene-stage">
         <div className="portrait-plane">
-          {preview ? (
-            <picture className="authentic-portrait">
-              <img data-portrait {...originalPortrait} fetchPriority="high" />
-            </picture>
-          ) : (
-            <picture>
-              <source media="(max-width:650px)" srcSet="/images/editorial/atelier-mobile.webp" />
-              <source
-                media="(min-width:651px)"
-                srcSet="/images/editorial/atelier-v2-1920.webp 1920w, /images/editorial/atelier-v2-2560.webp 2560w, /images/editorial/atelier-v2-3840.webp 3840w"
-                sizes="100vw"
-              />
-              <img
-                data-portrait
-                src="/images/editorial/atelier-v2-1920.webp"
-                width={1920}
-                height={1080}
-                alt="Varghese Shibu seated in a walnut atelier, wearing charcoal tailoring"
-                fetchPriority="high"
-              />
-            </picture>
-          )}
+          <picture>
+            <source media="(max-width:650px)" srcSet="/images/editorial/atelier-mobile.webp" />
+            <source
+              media="(min-width:651px)"
+              srcSet="/images/editorial/atelier-v2-1920.webp 1920w, /images/editorial/atelier-v2-2560.webp 2560w, /images/editorial/atelier-v2-3840.webp 3840w"
+              sizes="100vw"
+            />
+            <img
+              data-portrait
+              src="/images/editorial/atelier-v2-1920.webp"
+              width={1920}
+              height={1080}
+              alt="Varghese Shibu seated in a walnut atelier, wearing charcoal tailoring"
+              fetchPriority="high"
+            />
+          </picture>
           <div />
         </div>
         <div className="portrait-copy">
@@ -111,7 +102,6 @@ export function PortraitScene() {
 }
 
 export function PassageScene() {
-  const preview = usePortfolioPreview();
   const root = useRef<HTMLElement>(null);
   useChapter(root, 1.5, 1, (el, p) => {
     el.querySelector<HTMLElement>(".passage-photo")!.style.transform = `scale(${1 + p * 0.45}) translateX(${-p * 7}%)`;
@@ -133,20 +123,12 @@ export function PassageScene() {
       aria-labelledby="closeup-title"
     >
       <div className="scene-stage">
-        {preview ? (
-          <div className="passage-photo passage-film">
-            <ArchitecturalFilm chapter={root} />
-          </div>
-        ) : (
-          <>
-            <img
-              className="passage-photo"
-              src="/media/cinematic/architectural-passage.webp"
-              alt="A sunlit passage of walnut and stone"
-              loading="lazy"
-            />
-          </>
-        )}
+        <img
+          className="passage-photo"
+          src="/media/cinematic/architectural-passage.webp"
+          alt="A sunlit passage of walnut and stone"
+          loading="lazy"
+        />
         <div className="passage-shade" />
         <div className="passage-shutter passage-shutter-left" aria-hidden="true" />
         <div className="passage-shutter passage-shutter-right" aria-hidden="true" />
@@ -171,7 +153,6 @@ export function PassageScene() {
 }
 
 export function PerspectiveScene() {
-  const preview = usePortfolioPreview();
   const root = useRef<HTMLElement>(null);
   useChapter(root, 1.6, 1, (el, p) => {
     const photo = el.querySelector<HTMLElement>(".perspective-photo")!;
@@ -195,11 +176,11 @@ export function PerspectiveScene() {
       <div className="scene-stage">
         <div className="perspective-photo">
           <img
-            src={preview ? originalPortrait.src : "/images/editorial/architect.webp"}
+            src="/images/editorial/architect.webp"
             width={1672}
             height={941}
             loading="lazy"
-            alt={preview ? originalPortrait.alt : "Varghese Shibu in espresso tailoring against limestone architecture"}
+            alt="Varghese Shibu in espresso tailoring against limestone architecture"
           />
         </div>
         <div className="perspective-statement" aria-hidden="true">
