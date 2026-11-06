@@ -159,12 +159,8 @@ test.describe("editorial interactions", () => {
   test.use({ reducedMotion: "reduce" });
   test("featured engagement opens details and technology tabs support the keyboard", async ({ page }) => {
     await page.goto("/");
-    const row = page.locator(".project-row").first();
-    await row.locator("button").click();
-    await expect(row.locator(".project-detail")).toBeHidden();
-    await page.getByRole("link", { name: "Explore the engagement" }).click();
-    await expect(row.locator("button")).toHaveAttribute("aria-expanded", "true");
-    await expect(row.locator(".project-detail")).toBeVisible();
+    await page.locator(".engagement-picker button").nth(1).click();
+    await expect(page.locator(".engagement-record h4")).toContainText("Cargo Operations Platform");
     await page.getByRole("tab", { name: /Backend/ }).click();
     await page.keyboard.press("ArrowRight");
     await expect(page.getByRole("tab", { name: /Data/ })).toHaveAttribute("aria-selected", "true");

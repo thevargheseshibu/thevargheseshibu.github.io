@@ -23,9 +23,10 @@ test("changing reduced motion restores content and removes cinematic playback", 
   await expect(page.locator("#hero-title")).toBeVisible();
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(page.locator("video[data-cinematic]")).toHaveCount(0);
-  await expect(page.locator(".hero-title .mask > span").first()).toHaveCSS("transform", "none");
-  await expect(page.locator(".hero-eyebrow")).toHaveCSS("opacity", "1");
+  await expect(page.locator(".portrait-copy")).toHaveCSS("transform", "none");
+  await expect(page.locator(".portrait-copy")).toHaveCSS("opacity", "1");
   await page.locator("#education").scrollIntoViewIfNeeded();
   await expect(page.locator("#education-title")).toBeVisible();
-  await expect(page.locator(".education-record").first()).toBeVisible();
+  await expect(page.locator(".foundation-record")).toBeVisible();
+  await expect(page.locator(".pin-spacer")).toHaveCount(0);
 });

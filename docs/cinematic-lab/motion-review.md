@@ -29,4 +29,4 @@ The portrait is a single plane and does not reconstruct real facial depth. The e
 
 Compare visual impact, composition, motion complexity, continuity and mobile behaviour against actual references only if they become available. The screenshot grid compares prototype states with each other; it is not a side-by-side reference comparison.
 
-The prototype remains isolated at `/cinematic-lab`. The main portfolio’s sections and assets have not been changed. Integration remains subject to the approval requested in the supplied brief.
+This original prototype remains available at `/cinematic-lab`. Following the user's approval, distinct cinematic scenes have been integrated into the main portfolio; see [the main portfolio delivery](../portfolio-scenes.md).

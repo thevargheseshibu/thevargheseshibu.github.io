@@ -10,11 +10,17 @@ export function createScrollScene(options: {
   stage: HTMLElement;
   render: (progress: number) => void;
   reduced: boolean;
+  screens?: number;
 }) {
   const { root, stage, render, reduced } = options;
   if (reduced) {
     render(1);
-    return { destroy() {}, go() {} };
+    return {
+      destroy() {},
+      go(progress: number) {
+        render(clamp(progress));
+      },
+    };
   }
   const clock = { progress: 0 };
   const tween = gsap.to(clock, {
@@ -25,7 +31,7 @@ export function createScrollScene(options: {
       trigger: root,
       pin: stage,
       start: "top top",
-      end: () => `+=${window.innerHeight * (window.innerWidth < 700 ? 4 : 5.5)}`,
+      end: () => `+=${window.innerHeight * (options.screens ?? (window.innerWidth < 700 ? 4 : 5.5))}`,
       scrub: true,
       invalidateOnRefresh: true,
       onRefresh: (s) => {

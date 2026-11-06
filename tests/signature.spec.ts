@@ -1,28 +1,30 @@
-﻿import { expect, test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
-test("transformation chapters expose an inspectable system and link to the real case study", async ({ page }) => {
+test("each cinematic section transforms and restores its state on reverse scroll", async ({ page }) => {
   await page.goto("/");
-  const scene = page.locator("#closeup");
-  const controls = scene.getByRole("button", { name: /03 System/ });
-  await controls.click();
-  await expect(scene).toHaveAttribute("data-active", "2");
-  await scene.getByRole("button", { name: "D1 / SQLite", exact: true }).click();
-  await expect(scene.locator(".signature-inspector")).toContainText("Numbered SQL migrations");
-  await scene.getByRole("button", { name: /04 Experience/ }).click();
-  await expect(scene).toHaveAttribute("data-active", "3");
-  await expect(scene.getByRole("link", { name: "Inside the case study" })).toHaveAttribute("href", "/work/kerasobha");
-  await scene.getByRole("button", { name: /01 Perspective/ }).click();
-  await expect(scene).toHaveAttribute("data-active", "0");
-  expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
+  await page.evaluate(() => document.fonts.ready);
+  await expect(page.locator("[data-scene]")).toHaveCount(9);
+  for (const section of await page.locator("[data-scene]").all()) {
+    const { start, end } = await section.evaluate((el) => ({
+      start: Number((el as HTMLElement).dataset.start),
+      end: Number((el as HTMLElement).dataset.end),
+    }));
+    await page.evaluate((y) => scrollTo(0, y), start + (end - start) * 0.8);
+    await expect.poll(() => section.getAttribute("data-progress").then(Number)).toBeGreaterThan(0.78);
+    await page.evaluate((y) => scrollTo(0, y), start);
+    await expect.poll(() => section.getAttribute("data-progress").then(Number)).toBeLessThan(0.02);
+  }
 });
 
-test("transformation works without motion and does not pin on touch layouts", async ({ page }) => {
+test("product and system chapters remain functional with reduced motion", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
-  const scene = page.locator("#closeup");
-  await scene.getByRole("button", { name: /03 System/ }).click();
-  await expect(scene.locator(".signature-system")).toBeVisible();
-  await expect(scene.locator(".signature-stage")).not.toHaveCSS("position", "fixed");
-  await expect(scene.getByRole("button", { name: /03 System/ })).toHaveAttribute("aria-current", "step");
-  await expect(page.locator("video")).toHaveCount(0);
+  await page.locator(".product-selector button").nth(2).click();
+  await expect(page.locator(".product-caption")).toContainText("The collection");
+  await expect(page.getByRole("link", { name: "Inside the case study" })).toHaveAttribute("href", "/work/kerasobha");
+  await page.locator(".spatial-node").filter({ hasText: "D1 / SQLite" }).click();
+  await expect(page.locator(".spatial-inspector")).toContainText("Numbered SQL migrations");
+  await page.getByRole("button", { name: "Trace an enquiry" }).click();
+  await expect(page.locator(".spatial-hint")).toContainText("Browser → Worker → Enquiries → D1");
+  await expect(page.locator(".pin-spacer")).toHaveCount(0);
 });

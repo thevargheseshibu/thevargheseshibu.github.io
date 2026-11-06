@@ -2,7 +2,7 @@
 
 Local route: `http://127.0.0.1:4185/cinematic-lab`
 
-The prototype is available on the standalone `/cinematic-lab` route. The user has requested merging completed changes into `main`; the home page remains separate from this prototype. A Git merge alone does not verify a live deployment.
+The original prototype remains available on the standalone `/cinematic-lab` route. Following approval, distinct cinematic scenes have been integrated into the home page; see [main portfolio delivery](../portfolio-scenes.md). The user has requested merging completed changes into `main`. A Git merge alone does not verify a live deployment.
 
 ## Review files
 

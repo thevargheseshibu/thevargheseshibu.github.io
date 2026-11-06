@@ -2,20 +2,38 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { scrollToTarget } from "../lib/smooth-scroll";
 import { ScrollTrigger } from "../lib/motion";
-import Hero from "../sections/Hero";
-import Practice from "../sections/Practice";
-import CloseUp from "../sections/CloseUp";
-import About from "../sections/About";
-import Work from "../sections/Work";
-import Engineering from "../sections/Engineering";
-import Stack from "../sections/Stack";
-import Experience from "../sections/Experience";
-import Education from "../sections/Education";
-import Contact from "../sections/Contact";
+import { PortraitScene, PassageScene, PerspectiveScene } from "../sections/portfolio/PortraitScenes";
+import ProductScene from "../sections/portfolio/ProductScene";
+import SystemScene from "../sections/portfolio/SystemScene";
+import { ToolsetScene, JourneyScene, FoundationScene } from "../sections/portfolio/KnowledgeScenes";
+import ClosingScene from "../sections/portfolio/ClosingScene";
+import "../styles/portfolio-scenes.css";
 
 /** Story order: Hero → Portrait close-up → About → Selected Work → Engineering → Stack → Experience → Contact */
 export default function Home() {
   const { hash } = useLocation();
+  useEffect(() => {
+    let disposed = false;
+    let frame = 0;
+    const refresh = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        if (!disposed) ScrollTrigger.refresh();
+      });
+    };
+    // The short unpinned ledgers can change height after font loading or disclosure.
+    // Re-measure every downstream pin so the final chapter can reach its exact end.
+    const observer = new ResizeObserver(refresh);
+    document
+      .querySelectorAll(".engagement-gallery,.system-decisions,.credential-ledger")
+      .forEach((el) => observer.observe(el));
+    document.fonts.ready.then(refresh);
+    return () => {
+      disposed = true;
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
+  }, []);
   useEffect(() => {
     if (!hash) return;
     // Wait for lazy layout + pinned sections to measure before jumping.
@@ -27,17 +45,16 @@ export default function Home() {
   }, [hash]);
 
   return (
-    <main id="main">
-      <Hero />
-      <Practice />
-      <CloseUp />
-      <About />
-      <Work />
-      <Engineering />
-      <Stack />
-      <Experience />
-      <Education />
-      <Contact />
+    <main id="main" className="cinematic-portfolio">
+      <PortraitScene />
+      <PassageScene />
+      <PerspectiveScene />
+      <ProductScene />
+      <SystemScene />
+      <ToolsetScene />
+      <JourneyScene />
+      <FoundationScene />
+      <ClosingScene />
     </main>
   );
 }
