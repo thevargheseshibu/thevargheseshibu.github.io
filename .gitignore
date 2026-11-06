@@ -1,0 +1,14 @@
+node_modules
+.cache/
+dist
+test-results
+playwright-report
+artifacts/screens
+*.log
+tsconfig.tsbuildinfo
+artifacts/codex-review
+artifacts/flow/tools
+artifacts/flow/raw
+# Generated audit output and local browser state stay outside version control.
+.playwright-mcp/
+/artifacts/

@@ -1,0 +1,331 @@
+.experience-section {
+  background: var(--color-ink-2);
+}
+.experience-timeline {
+  position: relative;
+  margin-top: 5rem;
+}
+.experience-rail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 24%;
+  width: 1px;
+  background: var(--color-line);
+}
+.experience-progress {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--color-crimson);
+  transform-origin: top;
+}
+.experience-entry {
+  display: grid;
+  grid-template-columns: 24% 1fr;
+  gap: 0;
+}
+.experience-year {
+  font-size: clamp(3.5rem, 8vw, 9rem);
+  padding: 2rem 2rem 2rem 0;
+  color: var(--color-ash);
+}
+.experience-entry:first-of-type .experience-year {
+  color: var(--color-bone);
+}
+.experience-content {
+  border-top: 1px solid var(--color-line);
+  padding: 2rem 0 3rem 4rem;
+}
+.experience-toggle {
+  background: none;
+  border: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  text-align: left;
+  color: var(--color-bone);
+  width: 100%;
+  cursor: pointer;
+}
+.experience-toggle > svg {
+  flex: none;
+  margin-top: 1.5rem;
+  color: var(--color-crimson);
+}
+.experience-toggle .experience-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+.experience-location {
+  color: var(--color-ash);
+}
+.experience-toggle > span,
+.experience-content {
+  min-width: 0;
+}
+.experience-company {
+  display: block;
+  font-size: clamp(1.8rem, 3vw, 3.5rem);
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+  margin: 0.8rem 0 0.6rem;
+}
+.experience-role {
+  font-size: 1rem;
+  color: var(--color-ash);
+}
+.experience-summary {
+  color: var(--color-ash);
+  font-size: var(--text-body);
+  max-width: 43rem;
+  line-height: 1.65;
+  margin-top: 1.5rem;
+}
+.experience-details {
+  padding-top: 1.5rem;
+  max-width: 60rem;
+}
+.experience-details > ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem 2rem;
+}
+.experience-details li {
+  padding-left: 1.2rem;
+  position: relative;
+  color: var(--color-ash);
+  line-height: 1.6;
+}
+.experience-details li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--color-crimson);
+}
+.experience-clients {
+  margin-top: 1.75rem;
+  border-top: 1px solid var(--color-line);
+  padding-top: 1rem;
+}
+.experience-clients p {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+@media (max-width: 767px) {
+  .experience-timeline {
+    margin-top: 3rem;
+  }
+  .experience-rail {
+    display: none;
+  }
+  .experience-entry {
+    grid-template-columns: 1fr;
+    border-top: 1px solid var(--color-line);
+  }
+  .experience-year {
+    font-size: 4.5rem;
+    padding: 1.5rem 0;
+  }
+  .experience-content {
+    border: 0;
+    padding: 0 0 2.5rem;
+  }
+  .experience-company {
+    font-size: 2rem;
+  }
+  .experience-toggle {
+    gap: 1rem;
+  }
+  .experience-toggle > svg {
+    margin-top: 1rem;
+  }
+  .experience-summary {
+    font-size: 1rem;
+  }
+  .experience-details > ul li {
+    font-size: 0.95rem;
+  }
+}
+
+.experience-programmes {
+  margin-top: 2rem;
+  border-top: 1px solid var(--color-line);
+  padding-top: 1.25rem;
+}
+.experience-programme {
+  margin-top: 1.5rem;
+  padding-left: 1.25rem;
+  border-left: 1px solid var(--color-crimson);
+}
+.experience-programme h3 {
+  font-size: 1.2rem;
+  line-height: 1.35;
+  margin-bottom: 0.5rem;
+}
+.experience-programme ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+}
+.experience-credentials {
+  margin-top: 4rem;
+  border-top: 1px solid var(--color-crimson);
+}
+.credentials-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  padding: 2.5rem 0 3.5rem;
+}
+.credentials-heading h3 {
+  font-size: clamp(2.75rem, 5vw, 5rem);
+  line-height: 1.1;
+}
+.credentials-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.2rem 1.5rem;
+  border: 1px solid var(--color-crimson);
+  background: var(--color-crimson);
+  color: var(--color-bone);
+  text-decoration: none;
+  transition: background 180ms ease;
+}
+.credentials-download:hover {
+  background: transparent;
+}
+.credentials-group {
+  display: grid;
+  grid-template-columns: 24% minmax(0, 1fr);
+  border-top: 1px solid var(--color-line);
+  padding: 2rem 0;
+}
+.credentials-group > h3 {
+  color: var(--color-crimson);
+  padding-top: 0.25rem;
+}
+.credentials-group > div,
+.credentials-index {
+  margin-left: 4rem;
+}
+.credentials-years {
+  margin-bottom: 1rem;
+}
+.credentials-degree {
+  max-width: 46rem;
+  font-size: clamp(1.4rem, 2.1vw, 2rem);
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+}
+.credentials-university {
+  margin-top: 1.25rem;
+  line-height: 1.5;
+}
+.credentials-institution,
+.credentials-issuer {
+  color: var(--color-ash);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.credentials-research {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+  gap: 2rem;
+}
+.credentials-research dd {
+  margin-top: 0.75rem;
+  color: var(--color-ash);
+  line-height: 1.65;
+}
+.credentials-index {
+  list-style: none;
+  padding: 0;
+  min-width: 0;
+}
+.credentials-index li {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 1.3rem 0;
+  border-bottom: 1px solid var(--color-line);
+}
+.credentials-index li:first-child {
+  padding-top: 0;
+}
+.credentials-index li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.credentials-number {
+  color: var(--color-crimson);
+}
+.credentials-title {
+  font-size: 1.15rem;
+  line-height: 1.4;
+  margin-bottom: 0.35rem;
+}
+@media (max-width: 767px) {
+  .experience-toggle .experience-meta {
+    display: grid;
+    gap: 0.4rem;
+  }
+  .experience-details > ul {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.85rem;
+  }
+  .experience-programme {
+    padding-left: 1rem;
+  }
+  .experience-programme h3 {
+    font-size: 1.1rem;
+  }
+  .experience-credentials {
+    margin-top: 2rem;
+  }
+  .credentials-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    padding: 2rem 0;
+  }
+  .credentials-download {
+    width: 100%;
+    padding: 1.1rem 1rem;
+  }
+  .credentials-group {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    padding: 1.75rem 0;
+  }
+  .credentials-group > div,
+  .credentials-index {
+    margin-left: 0;
+  }
+  .credentials-research {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .credentials-index li {
+    grid-template-columns: 1.5rem minmax(0, 1fr) auto;
+    gap: 0.5rem;
+  }
+  .credentials-title {
+    font-size: 1rem;
+  }
+  .credentials-issuer {
+    font-size: 0.85rem;
+  }
+}
