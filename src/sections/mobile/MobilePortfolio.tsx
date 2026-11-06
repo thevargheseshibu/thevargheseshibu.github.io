@@ -17,6 +17,7 @@ import { createWorld } from "../../lib/cinematic-world";
 import { gsap, ScrollTrigger, useReducedMotion } from "../../lib/motion";
 import { scrollToTarget } from "../../lib/smooth-scroll";
 import ShowcaseFilm from "../../components/ShowcaseFilm";
+import { useMobileChoreography, useMobilePanelMotion } from "../../lib/mobile-choreography";
 import "../../styles/mobile-portfolio.css";
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
@@ -39,22 +40,8 @@ function ChapterLink({ to, children }: { to: string; children: React.ReactNode }
 }
 
 function MobileArrival() {
-  const root = useRef<HTMLElement>(null);
-  const reduced = useReducedMotion();
-  useEffect(() => {
-    if (reduced) return;
-    const ctx = gsap.context(() => {
-      gsap.to(".mp-arrival-image", {
-        yPercent: 12,
-        scale: 1.08,
-        ease: "none",
-        scrollTrigger: { trigger: root.current, start: "top top", end: "bottom top", scrub: true },
-      });
-    }, root);
-    return () => ctx.revert();
-  }, [reduced]);
   return (
-    <section ref={root} id="top" className="mp-arrival" data-mobile-chapter="portrait" aria-labelledby="hero-title">
+    <section id="top" className="mp-arrival" data-mobile-chapter="portrait" aria-labelledby="hero-title">
       <img
         className="mp-arrival-image"
         data-portrait
@@ -95,28 +82,8 @@ function MobileArrival() {
 }
 
 function MobilePassage() {
-  const root = useRef<HTMLElement>(null);
-  const reduced = useReducedMotion();
-  useEffect(() => {
-    if (reduced) return;
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: { trigger: root.current, start: "top top", end: "bottom bottom", scrub: true },
-      });
-      tl.to(".mp-passage-image", { scale: 1.6, xPercent: -8, ease: "none" }, 0)
-        .to(".mp-passage-frame", { scale: 4, opacity: 0, ease: "power1.in" }, 0)
-        .to(".mp-passage-word", { yPercent: -30, ease: "none" }, 0);
-    }, root);
-    return () => ctx.revert();
-  }, [reduced]);
   return (
-    <section
-      id="closeup"
-      ref={root}
-      className="mp-passage"
-      data-mobile-chapter="passage"
-      aria-labelledby="closeup-title"
-    >
+    <section id="closeup" className="mp-passage" data-mobile-chapter="passage" aria-labelledby="closeup-title">
       <div className="mp-passage-stage">
         <img
           className="mp-passage-image"
@@ -126,6 +93,11 @@ function MobilePassage() {
         />
         <div className="mp-passage-shade" />
         <div className="mp-passage-frame" aria-hidden="true" />
+        <div className="mp-passage-ribs" aria-hidden="true">
+          {[0, 1, 2].map((i) => (
+            <i className="mp-passage-rib" key={i} />
+          ))}
+        </div>
         <div className="mp-passage-word">
           <Eyebrow>A considered point of view</Eyebrow>
           <h2 id="closeup-title">
@@ -188,6 +160,8 @@ function MobileAbout() {
 function MobileWork() {
   const [selected, setSelected] = useState(0);
   const project = engineeringProjects[selected];
+  const record = useRef<HTMLElement>(null);
+  useMobilePanelMotion(record, selected);
   return (
     <section id="work" className="mp-work" data-mobile-chapter="product" aria-labelledby="work-title">
       <div className="mp-heading">
@@ -199,7 +173,11 @@ function MobileWork() {
         </h2>
         <p>Design, storytelling and a complete commerce platform.</p>
       </div>
-      <ShowcaseFilm />
+      <div className="mp-film-stage">
+        <div className="mp-film-shell">
+          <ShowcaseFilm />
+        </div>
+      </div>
       <div className="mp-work-story">
         <span className="mp-project-number">01 / 2026</span>
         <h3>Kerasobha.</h3>
@@ -246,7 +224,7 @@ function MobileWork() {
             </button>
           ))}
         </div>
-        <article className="mp-engagement-record engagement-record" aria-live="polite">
+        <article ref={record} className="mp-engagement-record engagement-record" aria-live="polite">
           <span className="mp-eyebrow">{project.category}</span>
           <h4>{project.title}</h4>
           <p>{project.summary}</p>
@@ -262,6 +240,9 @@ function MobileWork() {
 }
 
 function MobileSystem() {
+  const root = useRef<HTMLElement>(null),
+    inspector = useRef<HTMLElement>(null);
+  const reduced = useReducedMotion();
   const canvas = useRef<HTMLCanvasElement>(null);
   const world = useRef<ReturnType<typeof createWorld> | null>(null);
   const [active, setActive] = useState("worker"),
@@ -269,16 +250,48 @@ function MobileSystem() {
   const drag = useRef<{ x: number; y: number } | null>(null);
   useEffect(() => {
     const renderer = createWorld(canvas.current!, []);
-    renderer.render(1);
     world.current = renderer;
-    return () => renderer.destroy();
-  }, []);
+    // Preserve the inspected component when motion preferences rebuild the renderer.
+    renderer.select(active, trace ? ["browser", "worker", "enquiries", "d1"] : []);
+    const clock = { progress: reduced ? 1 : 0.56 };
+    const render = () => {
+      renderer.render(clock.progress);
+      if (root.current) root.current.dataset.modelProgress = clock.progress.toFixed(3);
+    };
+    render();
+    const ctx = gsap.context(() => {
+      if (!reduced)
+        gsap.to(clock, {
+          progress: 1,
+          ease: "none",
+          onUpdate: render,
+          scrollTrigger: {
+            trigger: root.current,
+            start: "top 85%",
+            endTrigger: canvas.current,
+            end: "bottom 50%",
+            scrub: true,
+          },
+        });
+    }, root);
+    return () => {
+      ctx.revert();
+      renderer.destroy();
+    };
+  }, [reduced]);
   useEffect(() => {
     world.current?.select(active, trace ? ["browser", "worker", "enquiries", "d1"] : []);
   }, [active, trace]);
   const node = systemNodes.find((n) => n.id === active)!;
+  useMobilePanelMotion(inspector, active);
   return (
-    <section id="engineering" className="mp-system" data-mobile-chapter="system" aria-labelledby="engineering-title">
+    <section
+      ref={root}
+      id="engineering"
+      className="mp-system"
+      data-mobile-chapter="system"
+      aria-labelledby="engineering-title"
+    >
       <div className="mp-heading">
         <Eyebrow>03 / Beneath the interface</Eyebrow>
         <h2 id="engineering-title">
@@ -341,12 +354,17 @@ function MobileSystem() {
           </button>
         ))}
       </div>
-      <article className="mp-inspector" id="mobile-system-inspector" aria-live="polite">
+      <article ref={inspector} className="mp-inspector" id="mobile-system-inspector" aria-live="polite">
         <Eyebrow>Inspect / {node.id}</Eyebrow>
         <h3>{node.label}</h3>
         <p>{node.description}</p>
       </article>
-      <button className="mp-trace" onClick={() => setTrace(!trace)} aria-pressed={trace} aria-label={trace?"Hide enquiry route":"Trace an enquiry"}>
+      <button
+        className="mp-trace"
+        onClick={() => setTrace(!trace)}
+        aria-pressed={trace}
+        aria-label={trace ? "Hide enquiry route" : "Trace an enquiry"}
+      >
         {trace ? "Hide enquiry route" : "Trace an enquiry"}
         <span aria-hidden="true">↗</span>
       </button>
@@ -371,6 +389,8 @@ function MobileSystem() {
 function MobileTools() {
   const [active, setActive] = useState(0);
   const group = stack[active];
+  const panel = useRef<HTMLElement>(null);
+  useMobilePanelMotion(panel, active);
   return (
     <section id="stack" className="mp-tools mp-paper" data-mobile-chapter="toolset" aria-labelledby="stack-title">
       <div className="mp-heading">
@@ -408,6 +428,7 @@ function MobileTools() {
         ))}
       </div>
       <article
+        ref={panel}
         className="mp-tool-panel"
         id="mobile-tool-panel"
         role="tabpanel"
@@ -662,12 +683,17 @@ function MobileContact() {
 }
 
 export default function MobilePortfolio() {
+  const root = useRef<HTMLElement>(null);
+  useMobileChoreography(root);
   useEffect(() => {
     const frame = requestAnimationFrame(() => ScrollTrigger.refresh());
     return () => cancelAnimationFrame(frame);
   }, []);
   return (
-    <main id="main" className="mobile-portfolio">
+    <main ref={root} id="main" className="mobile-portfolio">
+      <div className="mp-reading-progress" aria-hidden="true">
+        <span />
+      </div>
       <MobileArrival />
       <MobilePassage />
       <MobileAbout />

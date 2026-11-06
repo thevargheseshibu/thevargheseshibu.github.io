@@ -960,3 +960,197 @@ body:has(.mobile-portfolio) .site-nav {
 .mobile-portfolio details > summary::-webkit-details-marker {
   display: none;
 }
+/* Mobile motion: depth and choreography without scroll interception or fixed reading cards. */
+.mp-arrival-copy,
+.mp-heading,
+.mp-film-stage,
+.mp-career,
+.mp-education > ol {
+  perspective: 1000px;
+}
+.mp-arrival-copy h1,
+.mp-heading,
+.mp-film-shell,
+.mp-role,
+.mp-education-record {
+  transform-origin: 50% 65%;
+}
+.mp-arrival-copy h1 {
+  backface-visibility: hidden;
+}
+.mp-passage-ribs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.mp-passage-rib {
+  position: absolute;
+  border: 1px solid #d8bf8c66;
+  inset: 22% 18%;
+}
+.mp-passage-rib:nth-child(2) {
+  inset: 27% 23%;
+  border-color: #d8bf8c44;
+}
+.mp-passage-rib:nth-child(3) {
+  inset: 32% 28%;
+  border-color: #d8bf8c33;
+}
+.mp-reading-progress {
+  position: fixed;
+  z-index: 45;
+  top: 71px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  pointer-events: none;
+  background: #ad9a6a11;
+}
+.mp-reading-progress > span {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: #cfb47f;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.mp-film-stage {
+  padding: 16px 14px 0;
+  overflow: hidden;
+}
+.mp-film-shell {
+  position: relative;
+  border: 1px solid #b7a57866;
+  box-shadow: 0 20px 45px #0005;
+  background: #112218;
+}
+.mp-film-shell:before,
+.mp-film-shell:after {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+  border-color: #ddc393;
+}
+.mp-film-shell:before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+.mp-film-shell:after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+.mp-film-shell .showcase-controls {
+  padding-inline: 12px;
+}
+.mp-film-shell .showcase-controls > span {
+  font-size: 9px;
+  max-width: 150px;
+}
+.mp-tools-mark {
+  perspective: 650px;
+  height: 180px;
+}
+.mp-tools-mark > i {
+  transform-style: preserve-3d;
+}
+.mp-tools-mark > span {
+  display: block;
+}
+.mp-career {
+  position: relative;
+  --career-progress: 0;
+}
+.mp-career:after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  bottom: 30px;
+  left: 24px;
+  width: 2px;
+  background: linear-gradient(#ead4a8, #9ba86b);
+  transform: scaleY(var(--career-progress));
+  transform-origin: top;
+  pointer-events: none;
+}
+.mp-role {
+  background: linear-gradient(110deg, #253b2422, transparent 65%);
+  padding-right: 8px;
+}
+.mp-education-record {
+  background: #e9e3d4;
+  box-shadow: 0 -12px 24px #21341a0b;
+  backface-visibility: hidden;
+}
+.mp-education > ol {
+  overflow: hidden;
+}
+.mp-system-world {
+  overflow: hidden;
+}
+.mp-system-world:after {
+  content: "";
+  position: absolute;
+  inset: 16px;
+  border: 1px solid #a28d5c33;
+  pointer-events: none;
+}
+.mp-inspector,
+.mp-tool-panel,
+.mp-engagement-record {
+  perspective: 900px;
+}
+.mobile-portfolio button {
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s,
+    scale 0.18s;
+}
+.mobile-portfolio button:active {
+  scale: 0.97;
+}
+.mobile-portfolio details > summary > span {
+  transition: rotate 0.25s;
+}
+.mobile-portfolio details[open] > summary > span {
+  rotate: 45deg;
+}
+.mobile-portfolio details[open] > :not(summary) {
+  animation: mp-disclosure-in 0.3s ease-out;
+}
+@keyframes mp-disclosure-in {
+  from {
+    opacity: 0.4;
+    translate: 0 -8px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mp-reading-progress,
+  .mp-passage-ribs {
+    display: none;
+  }
+  .mobile-portfolio details[open] > :not(summary) {
+    animation: none;
+  }
+  .mobile-portfolio button,
+  .mobile-portfolio summary > span {
+    transition: none;
+  }
+  .mobile-portfolio button:active {
+    scale: 1;
+  }
+  .mp-career:after {
+    transform: scaleY(1);
+  }
+}
