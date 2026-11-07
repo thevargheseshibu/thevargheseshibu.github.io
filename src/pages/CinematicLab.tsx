@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import "../styles/global.css";
 import { Link } from "react-router-dom";
 import { createScrollScene, createVideoScrubber, ease, phase } from "../lib/cinematic-scene";
 import { createWorld } from "../lib/cinematic-world";

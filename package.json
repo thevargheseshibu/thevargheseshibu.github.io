@@ -9,7 +9,7 @@
     "preview": "vite preview --host 127.0.0.1 --port 4173",
     "typecheck": "tsc -b",
     "test": "playwright test",
-    "shots": "playwright test tests/visual.spec.ts",
+    "shots": "playwright test --grep \"visual review\"",
     "format": "prettier --write src scripts tests"
   },
   "dependencies": {

@@ -1,0 +1,73 @@
+@font-face {
+  font-family: "Inter Tight Variable";
+  src: url("/creative-reset/fonts/inter-tight.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+html {
+  font-family: "Inter Tight Variable", Arial, sans-serif;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: auto;
+}
+body {
+  margin: 0;
+  min-height: 100dvh;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+button {
+  cursor: pointer;
+}
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+a {
+  color: inherit;
+}
+button,
+select {
+  border-radius: 0;
+}
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+button {
+  font-synthesis: none;
+}
+.skip-link {
+  position: fixed;
+  top: -80px;
+  left: 20px;
+  z-index: 300;
+  background: #234cd8;
+  color: white;
+  padding: 14px 20px;
+  font:
+    14px "Inter Tight Variable",
+    Arial,
+    sans-serif;
+  text-decoration: none;
+}
+.skip-link:focus {
+  top: 12px;
+  outline: 2px solid white;
+  outline-offset: 3px;
+}
