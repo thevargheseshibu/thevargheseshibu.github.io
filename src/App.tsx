@@ -1,10 +1,12 @@
 import { Suspense, lazy, useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import Home from "./open-structure/Portfolio";
+import Home from "./pages/Home";
+import Nav from "./components/Nav";
+import { startSmoothScroll, stopSmoothScroll } from "./lib/smooth-scroll";
 import { ScrollTrigger } from "./lib/motion";
 
-const CaseStudy = lazy(() => import("./open-structure/CaseStudy"));
-const NotFound = lazy(() => import("./open-structure/NotFound"));
+const CaseStudy = lazy(() => import("./pages/CaseStudy"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 const CinematicLab = lazy(() => import("./pages/CinematicLab"));
 
 function RouteEffects() {
@@ -33,19 +35,9 @@ function RouteEffects() {
 export default function App() {
   const { pathname } = useLocation();
   useEffect(() => {
-    if (pathname !== "/cinematic-lab") return;
-    let disposed = false;
-    let stop: (() => void) | undefined;
-    void import("./lib/smooth-scroll").then((controller) => {
-      if (disposed) return;
-      controller.startSmoothScroll();
-      stop = controller.stopSmoothScroll;
-    });
-    return () => {
-      disposed = true;
-      stop?.();
-    };
-  }, [pathname]);
+    startSmoothScroll();
+    return () => stopSmoothScroll();
+  }, []);
 
   return (
     <>
@@ -53,7 +45,8 @@ export default function App() {
         Skip to content
       </a>
       <RouteEffects />
-      <Suspense fallback={<div style={{ minHeight: "100dvh", background: "#eeeae2" }} />}>
+      {pathname !== "/cinematic-lab" && <Nav />}
+      <Suspense fallback={<div className="min-h-dvh bg-ink" />}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/work/kerasobha" element={<CaseStudy />} />
